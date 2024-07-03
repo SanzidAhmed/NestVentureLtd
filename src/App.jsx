@@ -5,6 +5,8 @@ import AboutUs from "./components/pages/Home/AboutUs/AboutUs";
 import GrowthAndInovation from "./components/pages/Home/GrowthAndInovation/GrowthAndInovation";
 import Services from "./components/pages/Home/Services/Services";
 import Strength from "./components/pages/Home/Strength/Strength";
+import CompanyStatistics from "./components/pages/Home/Statistics/CompanyStatistics";
+import CompanyVideo from "./components/pages/Home/CompanyVideo/CompanyVideo";
 
 const App = () => {
   return (
@@ -15,6 +17,8 @@ const App = () => {
       <GrowthAndInovation></GrowthAndInovation>
       <Services></Services>
       <Strength></Strength>
+      <CompanyStatistics></CompanyStatistics>
+      <CompanyVideo></CompanyVideo>
     </div>
   );
 };
