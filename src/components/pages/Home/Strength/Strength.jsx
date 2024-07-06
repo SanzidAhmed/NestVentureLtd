@@ -3,7 +3,7 @@ import { GiPentarrowsTornado } from "react-icons/gi";
 
 const Strength = () => {
   return (
-    <div className="bg-slate-300">
+    <div className="bg-red-50">
       <div className="container mx-auto py-16">
         <h3 className="text-center text-3xl font-semibold ">Strength </h3>
         <h2 className="text-center text-5xl font-semibold pt-6 pb-10">

@@ -2,7 +2,7 @@ import React from "react";
 
 const GrowthAndInovation = () => {
   return (
-    <div className="bg-slate-300">
+    <div className="bg-red-50">
       <div className="container mx-auto ">
         <h1 className="text-2xl font-semibold pt-10 text-center">
           Empowering Diverse Industries
@@ -10,7 +10,7 @@ const GrowthAndInovation = () => {
         <h1 className="text-4xl font-bold mt-4 text-center text-red-500">
           NEST Ventures Fuels Growth and Innovation
         </h1>
-        <div className="grid grid-cols-4 gap-10 mt-10">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-10 mt-10">
           <div className="pb-10">
             <div className="card bg-base-100 w-full shadow-xl relative rounded-none">
               <div className="relative">

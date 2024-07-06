@@ -6,7 +6,7 @@
 
 .swiper-button-next:hover,
 .swiper-button-prev:hover {
-  @apply border-green-600;
+  @apply bg-red-700;
 }
 
 .swiper-button-next::after,
