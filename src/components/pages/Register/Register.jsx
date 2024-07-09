@@ -1,14 +1,23 @@
+import { useContext } from "react";
 import { useForm } from "react-hook-form";
+import { AuthContext } from "../../provider/AuthProvider";
 
 const Register = () => {
+  const { createUser } = useContext(AuthContext);
   const {
     register,
     handleSubmit,
-    watch,
+    reset,
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data) => console.log(data);
+  const onSubmit = (data) => {
+    createUser(data.email, data.password).then((result) => {
+      const loggedUser = result.user;
+      reset();
+      console.log(loggedUser);
+    });
+  };
 
   return (
     <div>
@@ -59,15 +68,13 @@ const Register = () => {
                   className="input input-bordered"
                 />
                 {errors.email && <span>This field is required</span>}
-
-                <label className="label">
-                  <a href="#" className="label-text-alt link link-hover">
-                    Forgot password?
-                  </a>
-                </label>
               </div>
               <div className="form-control mt-6">
-                <button className="btn btn-primary">Login</button>
+                <input
+                  type="submit"
+                  value="Register"
+                  className="btn btn-primary"
+                ></input>
               </div>
             </form>
           </div>

@@ -1,6 +1,15 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 const GrowthAndInovation = () => {
+  const [growth, setGrowth] = useState([]);
+
+  useEffect(() => {
+    fetch("http://localhost:3300/growth")
+      .then((res) => res.json())
+      .then((data) => {
+        setGrowth(data);
+      });
+  }, []);
   return (
     <div className="bg-red-50">
       <div className="container mx-auto ">
@@ -11,78 +20,28 @@ const GrowthAndInovation = () => {
           NEST Ventures Fuels Growth and Innovation
         </h1>
         <div className="grid grid-cols-1 md:grid-cols-4 gap-10 mt-10">
-          <div className="pb-10">
-            <div className="card bg-base-100 w-full shadow-xl relative rounded-none">
-              <div className="relative">
-                <img
-                  src="https://i.ibb.co/MSNStMJ/projects1.jpg"
-                  alt="Shoes"
-                  className="w-full"
-                />
-                <div className="absolute inset-0 bg-black opacity-50"></div>
-              </div>
-              <div className="card-body absolute bottom-0">
-                <h2 className="card-title text-white">
-                  Projects Technology (Robotics & AI)
-                </h2>
-                <button className="btn bg-red-600 text-white">Apply Now</button>
-              </div>
-            </div>
-          </div>
-          <div className="pb-10">
-            <div className="card bg-base-100 w-full shadow-xl relative rounded-none">
-              <div className="relative">
-                <img
-                  src="https://i.ibb.co/MSNStMJ/projects1.jpg"
-                  alt="Shoes"
-                  className="w-full"
-                />
-                <div className="absolute inset-0 bg-black opacity-50"></div>
-              </div>
-              <div className="card-body absolute bottom-0">
-                <h2 className="card-title text-white">
-                  Projects Technology (Robotics & AI)
-                </h2>
-                <button className="btn bg-red-600 text-white">Apply Now</button>
+          {growth.map((companyGrowth) => (
+            <div key={companyGrowth._id} className="pb-10">
+              <div className="card bg-base-100 w-full shadow-xl relative rounded-none">
+                <div className="relative">
+                  <img
+                    src={companyGrowth.image}
+                    alt="Shoes"
+                    className="w-full"
+                  />
+                  <div className="absolute inset-0 bg-black opacity-50"></div>
+                </div>
+                <div className="card-body absolute bottom-0">
+                  <h2 className="card-title text-white">
+                    {companyGrowth.title}
+                  </h2>
+                  <button className="btn bg-red-600 text-white">
+                    {companyGrowth.buttonText}
+                  </button>
+                </div>
               </div>
             </div>
-          </div>
-          <div className="pb-10">
-            <div className="card bg-base-100 w-full shadow-xl relative rounded-none">
-              <div className="relative">
-                <img
-                  src="https://i.ibb.co/MSNStMJ/projects1.jpg"
-                  alt="Shoes"
-                  className="w-full"
-                />
-                <div className="absolute inset-0 bg-black opacity-50"></div>
-              </div>
-              <div className="card-body absolute bottom-0">
-                <h2 className="card-title text-white">
-                  Projects Technology (Robotics & AI)
-                </h2>
-                <button className="btn bg-red-600 text-white">Apply Now</button>
-              </div>
-            </div>
-          </div>
-          <div className="pb-10">
-            <div className="card bg-base-100 w-full shadow-xl relative rounded-none">
-              <div className="relative">
-                <img
-                  src="https://i.ibb.co/MSNStMJ/projects1.jpg"
-                  alt="Shoes"
-                  className="w-full"
-                />
-                <div className="absolute inset-0 bg-black opacity-50"></div>
-              </div>
-              <div className="card-body absolute bottom-0">
-                <h2 className="card-title text-white">
-                  Projects Technology (Robotics & AI)
-                </h2>
-                <button className="btn bg-red-600 text-white">Apply Now</button>
-              </div>
-            </div>
-          </div>
+          ))}
         </div>
       </div>
     </div>
