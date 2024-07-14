@@ -1,5 +1,8 @@
 import React from "react";
 import { GiPentarrowsTornado } from "react-icons/gi";
+import { MdSupportAgent } from "react-icons/md";
+import { BsBank2 } from "react-icons/bs";
+import { RiMoneyDollarBoxFill } from "react-icons/ri";
 
 const Strength = () => {
   return (
@@ -26,10 +29,10 @@ const Strength = () => {
           </div>
           <div className="bg-white p-10">
             <p>
-              <GiPentarrowsTornado className="text-5xl font-bold text-red-900" />
+              <MdSupportAgent className="text-5xl font-bold text-red-900" />
             </p>
             <h1 className="text-red-900 text-3xl font-semibold my-6">
-              Fast Executions
+              Guide & Support{" "}
             </h1>
             <p>
               NEST specializes in the fast execution of investment support for
@@ -40,10 +43,10 @@ const Strength = () => {
           </div>
           <div className="bg-white p-10">
             <p>
-              <GiPentarrowsTornado className="text-5xl font-bold text-red-900" />
+              <BsBank2 className="text-5xl font-bold text-red-900" />
             </p>
             <h1 className="text-red-900 text-3xl font-semibold my-6">
-              Fast Executions
+              Financial Secure{" "}
             </h1>
             <p>
               NEST specializes in the fast execution of investment support for
@@ -54,10 +57,10 @@ const Strength = () => {
           </div>
           <div className="bg-white p-10">
             <p>
-              <GiPentarrowsTornado className="text-5xl font-bold text-red-900" />
+              <RiMoneyDollarBoxFill className="text-5xl font-bold text-red-900" />
             </p>
             <h1 className="text-red-900 text-3xl font-semibold my-6">
-              Fast Executions
+              Refinancing{" "}
             </h1>
             <p>
               NEST specializes in the fast execution of investment support for

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { MdDone } from "react-icons/md";
+import Steps from "./Steps";
 
 const HowDoesWorkNest = () => {
   const [procedures, setProcedures] = useState([]);
@@ -26,10 +27,10 @@ const HowDoesWorkNest = () => {
       )}
       <div className="container mx-auto max-w-[1320px]">
         {procedures.map((procedure) => (
-          <div className="flex justify-between items-center">
+          <div className="flex justify-between gap-8 items-center">
             <div className="w-full relative">
               <img
-                className="absolute top-0"
+                className="absolute top-0 h-[600px]"
                 src={procedure.mainImage}
                 alt=""
               />
@@ -43,21 +44,7 @@ const HowDoesWorkNest = () => {
                 {procedure.title}
               </h1>
               <p>{procedure.description}</p>
-              <div className="mt-4 ">
-                {procedure.steps.map((step) => (
-                  <div className="flex justify-between gap-4 mb-4">
-                    <p>
-                      <MdDone className="text-3xl text-red-900 hover:text-white hover:bg-red-700 rounded-full   " />
-                    </p>
-                    <div>
-                      <h2 className="text-2xl font-bold text-red-900 mb-2">
-                        {step.title}
-                      </h2>
-                      <p>{step.description}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
+              <Steps></Steps>
             </div>
           </div>
         ))}

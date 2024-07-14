@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const DashboardServices = () => {
   const [items, setItems] = useState([]);
@@ -7,7 +8,41 @@ const DashboardServices = () => {
     fetch("http://localhost:3300/services")
       .then((res) => res.json())
       .then((data) => setItems(data));
-  }, []);
+  }, [items]);
+  const handleDelete = (id) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        fetch(`http://localhost:3300/services/${id}`, {
+          method: "DELETE",
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            if (data.deletedCount > 0) {
+              setItems(items.filter((item) => item._id !== id));
+              Swal.fire(
+                "Deleted!",
+                "Your section has been deleted.",
+                "success"
+              );
+            } else {
+              Swal.fire("Error!", "Something went wrong.", "error");
+            }
+          })
+          .catch((error) => {
+            Swal.fire("Error!", "Something went wrong.", "error");
+          });
+      }
+    });
+  };
+
   return (
     <div className="container mx-auto border ">
       <div className="flex justify-between items-center py-2 border pr-2">

@@ -1,48 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import Swal from "sweetalert2";
 
-const DashboardGrowthAndInnovation = () => {
+const DashboardHowDoesWorkNest = () => {
   const [items, setItems] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:3300/growth")
+    fetch("http://localhost:3300/how-does-nest-works")
       .then((res) => res.json())
       .then((data) => setItems(data));
   }, []);
-  const handleDelete = (id) => {
-    Swal.fire({
-      title: "Are you sure?",
-      text: "Do you want to delete this!",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, delete it!",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        fetch(`http://localhost:3300/growth/${id}`, {
-          method: "DELETE",
-        })
-          .then((res) => res.json())
-          .then((data) => {
-            if (data.deletedCount > 0) {
-              setItems(items.filter((item) => item._id !== id));
-              Swal.fire("Deleted!", "Your file has been deleted.", "success");
-            } else {
-              Swal.fire("Error!", "Something went wrong.", "error");
-            }
-          })
-          .catch((error) => {
-            Swal.fire("Error!", "Something went wrong.", "error");
-          });
-      }
-    });
-  };
   return (
     <div className="container mx-auto border">
       <div className="flex justify-between items-center py-2 border pr-2">
-        <h1 className="pl-4">Manage Innovation and Growth Section</h1>
+        <h1 className="pl-4">Manage How Company Work</h1>
         <Link to="/dashboard/create-growth-innovation" className="btn btn-sm">
           Add New
         </Link>
@@ -65,7 +35,7 @@ const DashboardGrowthAndInnovation = () => {
                   <div className="avatar">
                     <div className="mask mask-squircle h-12 w-12">
                       <img
-                        src={item.image}
+                        src={item.mainImage}
                         alt="Avatar Tailwind CSS Component"
                       />
                     </div>
@@ -80,17 +50,11 @@ const DashboardGrowthAndInnovation = () => {
               </td>
               <td className="gap-1 flex justify-end">
                 <Link
-                  to={`/dashboard/growth-update/${item._id}`}
+                  to={`/dashboard/how-does-company-work-update/${item._id}`}
                   className="btn btn-primary btn-xs"
                 >
                   Update
                 </Link>
-                <button
-                  onClick={() => handleDelete(item._id)}
-                  className="btn btn-primary bg-red-600 btn-xs"
-                >
-                  Delete
-                </button>
               </td>
             </tr>
           ))}
@@ -111,4 +75,4 @@ const DashboardGrowthAndInnovation = () => {
   );
 };
 
-export default DashboardGrowthAndInnovation;
+export default DashboardHowDoesWorkNest;

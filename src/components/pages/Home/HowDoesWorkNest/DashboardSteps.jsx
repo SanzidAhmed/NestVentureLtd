@@ -2,11 +2,11 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 
-const DashboardGrowthAndInnovation = () => {
+const DashboardSteps = () => {
   const [items, setItems] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:3300/growth")
+    fetch("http://localhost:3300/steps")
       .then((res) => res.json())
       .then((data) => setItems(data));
   }, []);
@@ -21,7 +21,7 @@ const DashboardGrowthAndInnovation = () => {
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        fetch(`http://localhost:3300/growth/${id}`, {
+        fetch(`http://localhost:3300/steps/${id}`, {
           method: "DELETE",
         })
           .then((res) => res.json())
@@ -42,7 +42,7 @@ const DashboardGrowthAndInnovation = () => {
   return (
     <div className="container mx-auto border">
       <div className="flex justify-between items-center py-2 border pr-2">
-        <h1 className="pl-4">Manage Innovation and Growth Section</h1>
+        <h1 className="pl-4">Manage Steps</h1>
         <Link to="/dashboard/create-growth-innovation" className="btn btn-sm">
           Add New
         </Link>
@@ -51,8 +51,8 @@ const DashboardGrowthAndInnovation = () => {
         <thead className="bg-red-900 text-white w-full">
           <tr>
             <th>Serial</th>
-            <th>Images</th>
             <th>Title</th>
+            <th>Description</th>
             <th className="text-end">Action</th>
           </tr>
         </thead>
@@ -61,26 +61,12 @@ const DashboardGrowthAndInnovation = () => {
             <tr key={item._id} className="border-b">
               <td>{index + 1}</td>
               <td>
-                <div className="flex items-center gap-3">
-                  <div className="avatar">
-                    <div className="mask mask-squircle h-12 w-12">
-                      <img
-                        src={item.image}
-                        alt="Avatar Tailwind CSS Component"
-                      />
-                    </div>
-                  </div>
-                  <div>
-                    <div className="text-sm opacity-50">{item.link}</div>
-                  </div>
-                </div>
-              </td>
-              <td>
                 <div className="font-bold">{item.title}</div>
               </td>
+              <td>{item.description}</td>
               <td className="gap-1 flex justify-end">
                 <Link
-                  to={`/dashboard/growth-update/${item._id}`}
+                  to={`/dashboard/step/${item._id}`}
                   className="btn btn-primary btn-xs"
                 >
                   Update
@@ -111,4 +97,4 @@ const DashboardGrowthAndInnovation = () => {
   );
 };
 
-export default DashboardGrowthAndInnovation;
+export default DashboardSteps;

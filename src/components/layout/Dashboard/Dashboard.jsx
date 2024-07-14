@@ -8,6 +8,7 @@ import { FaPlay } from "react-icons/fa";
 const Dashboard = () => {
   const { logOut } = useContext(AuthContext);
   const [isUpdateSectionOpen, setUpdateSectionOpen] = useState(false);
+  const [isNestWorkOpen, setNestWorkOpen] = useState(false); // State for "How Does Nest Work" subsection
 
   const handleLogout = () => {
     logOut()
@@ -20,7 +21,9 @@ const Dashboard = () => {
   const toggleUpdateSection = () => {
     setUpdateSectionOpen(!isUpdateSectionOpen);
   };
-
+  const toggleNestWork = () => {
+    setNestWorkOpen(!isNestWorkOpen);
+  };
   return (
     <div>
       <div className="drawer lg:drawer-open">
@@ -110,15 +113,37 @@ const Dashboard = () => {
                     Company Video Update
                   </NavLink>
                 </li>
-                <li className="text-sm w-full  pl-2 bg-white border-white text-black hover:bg-white hover:border-white">
-                  <NavLink
-                    to="/dashboard/company-update"
-                    className="flex items-center gap-2"
-                  >
+                <ul
+                  onClick={toggleNestWork}
+                  className="text-sm w-full  pl-2 bg-white border-white text-black hover:bg-white hover:border-white"
+                >
+                  <NavLink to="/dashboard" className="flex items-center gap-2">
                     <FaPlay className="text-xs" />
-                    About us Update
+                    How Does Nest Work
                   </NavLink>
-                </li>
+                  {isNestWorkOpen && (
+                    <>
+                      <li className="text-sm w-full  pl-2 bg-white border-white text-black hover:bg-white hover:border-white">
+                        <NavLink
+                          to="/dashboard/how-does-company-work"
+                          className="flex items-center gap-2"
+                        >
+                          <FaPlay className="text-xs" />
+                          Body
+                        </NavLink>
+                      </li>
+                      <li className="text-sm w-full  pl-2 bg-white border-white text-black hover:bg-white hover:border-white">
+                        <NavLink
+                          to="/dashboard/steps"
+                          className="flex items-center gap-2"
+                        >
+                          <FaPlay className="text-xs" />
+                          Steps
+                        </NavLink>
+                      </li>
+                    </>
+                  )}
+                </ul>
               </>
             )}
             <Link

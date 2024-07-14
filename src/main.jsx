@@ -25,6 +25,10 @@ import CreateAboutUs from "./components/pages/Home/AboutUs/CreateAboutUs.jsx";
 import CreateBanner from "./components/pages/Home/Banner/CreateBanner.jsx";
 import CreateGrowthAndInnovation from "./components/pages/Home/GrowthAndInovation/CreateGrowthAndInnovation.jsx";
 import CreateService from "./components/pages/Home/Services/CreateService.jsx";
+import DashboardHowDoesWorkNest from "./components/pages/Home/HowDoesWorkNest/DashboardHowDoesWorkNest.jsx";
+import DashboardSteps from "./components/pages/Home/HowDoesWorkNest/DashboardSteps.jsx";
+import UpdateSteps from "./components/pages/Home/HowDoesWorkNest/UpdateSteps.jsx";
+import UpdateHowDoesWorkNest from "./components/pages/Home/HowDoesWorkNest/UpdateHowDoesWorkNest.jsx";
 
 const router = createBrowserRouter([
   {
@@ -152,6 +156,34 @@ const router = createBrowserRouter([
         ),
         loader: ({ params }) =>
           fetch(`http://localhost:3300/video/${params.id}`),
+      },
+      {
+        path: "how-does-company-work",
+        element: <DashboardHowDoesWorkNest></DashboardHowDoesWorkNest>,
+      },
+      {
+        path: "how-does-company-work-update/:id",
+        element: (
+          <PrivateRoute>
+            <UpdateHowDoesWorkNest></UpdateHowDoesWorkNest>
+          </PrivateRoute>
+        ),
+        loader: ({ params }) =>
+          fetch(`http://localhost:3300/how-does-nest-works/${params.id}`),
+      },
+      {
+        path: "steps",
+        element: <DashboardSteps></DashboardSteps>,
+      },
+      {
+        path: "step/:id",
+        element: (
+          <PrivateRoute>
+            <UpdateSteps></UpdateSteps>
+          </PrivateRoute>
+        ),
+        loader: ({ params }) =>
+          fetch(`http://localhost:3300/steps/${params.id}`),
       },
     ],
   },
