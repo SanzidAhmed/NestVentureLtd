@@ -3,60 +3,35 @@ import { useForm } from "react-hook-form";
 import { useLoaderData } from "react-router-dom";
 import Swal from "sweetalert2";
 
-const image_hosting_token = import.meta.env.VITE_Image_Upload_Token;
-
-const UpdateBanner = () => {
+const UpdateServices = () => {
   const item = useLoaderData();
-  const { title, _id, description } = item;
+  const { title, image, _id, description } = item;
   const { register, handleSubmit, reset } = useForm();
-  const image_hosting_url = `https://api.imgbb.com/1/upload?key=${image_hosting_token}`;
   const onSubmit = (data) => {
-    const formData = new FormData();
-    formData.append("image", data.image[0]);
-    fetch(image_hosting_url, {
-      method: "POST",
-      body: formData,
+    fetch(`http://localhost:3300/services/${_id}`, {
+      method: "PUT",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(data),
     })
       .then((res) => res.json())
-      .then((imgbbResult) => {
-        console.log(imgbbResult);
-        if (imgbbResult.success) {
-          const imageUrl = imgbbResult.data.display_url;
-          const updatedData = data;
-          updatedData.image = imageUrl;
-          return fetch(`http://localhost:3300/slider/${_id}`, {
-            method: "PUT",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(updatedData),
-          });
-        } else {
-          throw new Error("Image upload failed");
-        }
-      })
-      .then((res) => res.json())
       .then((result) => {
-        Swal.fire("Banner updated successfully");
+        Swal.fire("Services Section updated successfully");
         reset(result);
-      })
-      .catch((error) => {
-        Swal.fire("Error updating Banner", error.message, "error");
       });
   };
 
   return (
     <div className="bg-white p-32 w-full">
-      <h1 className="text-center font-extrabold text-3xl mb-14">
-        Update Banner
+      <h1 className="text-center font-extrabold text-3xl mb-14 w-full">
+        Service Section Update
       </h1>
-      <form onSubmit={handleSubmit(onSubmit)} className=" ">
+      <form onSubmit={handleSubmit(onSubmit)} className=" w-full">
         <div className="md:flex gap-5">
-          <div className="form-control md:w-1/2">
+          <div className="form-control w-full">
             <label className="label">
-              <span className="label-text text-lg font-medium ">
-                Slider Title
-              </span>
+              <span className="label-text text-lg font-medium ">Title </span>
             </label>
             <label className="">
               <input
@@ -69,10 +44,10 @@ const UpdateBanner = () => {
               />
             </label>
           </div>
-          <div className="form-control md:w-1/2">
+          <div className="form-control w-full">
             <label className="label">
               <span className="label-text text-lg font-medium ">
-                Description
+                Slider description
               </span>
             </label>
             <label className="">
@@ -86,24 +61,25 @@ const UpdateBanner = () => {
               />
             </label>
           </div>
-          <div className="form-control md:w-1/2">
+          <div className="form-control w-full">
             <label className="label">
-              <span className="label-text text-lg font-medium">Image</span>
+              <span className="label-text text-lg font-medium">Image Link</span>
             </label>
             <label className="">
               <input
+                type="text"
                 {...register("image")}
+                defaultValue={image}
                 placeholder="Image"
                 name="image"
-                type="file"
-                className="w-full file-input file-input-bordered"
+                className="input input-bordered rounded-lg w-full"
               />
             </label>
           </div>
         </div>
         <input
           type="submit"
-          value="Update Banner"
+          value="Update service"
           className="btn btn-block bg-red-900 hover:bg-red-700 mt-4 text-white"
         />
       </form>
@@ -111,4 +87,4 @@ const UpdateBanner = () => {
   );
 };
 
-export default UpdateBanner;
+export default UpdateServices;

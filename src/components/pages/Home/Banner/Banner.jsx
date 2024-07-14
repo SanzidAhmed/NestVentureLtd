@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
-import "swiper/css/pagination";
 import "swiper/css/navigation";
-import { Autoplay, Pagination, Navigation } from "swiper/modules";
+import { Autoplay, Navigation } from "swiper/modules";
 import "./Banner.css"; // Import custom CSS
 
 const Banner = () => {
@@ -32,6 +31,10 @@ const Banner = () => {
       </div>
     );
   }
+  const customButtonStyles = {
+    color: "white",
+    backgroundColor: "#7F1D1D",
+  };
 
   return (
     <div className="relative">
@@ -42,14 +45,11 @@ const Banner = () => {
           delay: 3500,
           disableOnInteraction: false,
         }}
-        pagination={{
-          clickable: true,
-        }}
         navigation={{
           nextEl: ".swiper-button-next",
           prevEl: ".swiper-button-prev",
         }}
-        modules={[Autoplay, Pagination, Navigation]}
+        modules={[Autoplay, Navigation]}
         className="mySwiper"
       >
         {slider.map((slide, index) => (
@@ -60,7 +60,9 @@ const Banner = () => {
               alt={slide.title}
             />
             <div className="absolute bottom-10 left-10 text-white">
-              <h2 className="text-3xl font-bold">{slide.title}</h2>
+              <h2 className="text-3xl font-bold p-4 bg-red-400">
+                {slide.title}
+              </h2>
               <p className="text-lg">{slide.description}</p>
               {slide.link && (
                 <a
@@ -77,8 +79,14 @@ const Banner = () => {
         ))}
       </Swiper>
       {/* Navigation buttons */}
-      <div className="swiper-button-next"></div>
-      <div className="swiper-button-prev"></div>
+      <div
+        className="swiper-button-next swiper-button"
+        style={customButtonStyles}
+      ></div>
+      <div
+        className="swiper-button-prev swiper-button"
+        style={customButtonStyles}
+      ></div>
     </div>
   );
 };

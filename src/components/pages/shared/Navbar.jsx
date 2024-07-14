@@ -7,8 +7,8 @@ import { BiSolidMessageDetail } from "react-icons/bi";
 const Navbar = () => {
   return (
     <div className="">
-      <div className=" bg-red-500">
-        <div className="md:flex hidden justify-between py-6 px-10 bg-red-500 items-center container mx-auto text-white">
+      <div className=" bg-red-900">
+        <div className="md:flex hidden justify-between py-6 px-10 bg-red-900 items-center container mx-auto text-white">
           <div className="flex-col flex">
             <h1 className="inline-flex items-center gap-2 mb-4 md:mb-0">
               <FaLocationDot /> House 10, Main Road, Block C, Banasree, Rampura,
@@ -109,7 +109,7 @@ const Navbar = () => {
             </div>
           </div>
           <div className="navbar-center hidden lg:flex">
-            <ul className="menu menu-horizontal px-1">
+            <ul className="menu menu-horizontal px-1 uppercase font-bold">
               <li>
                 <NavLink to="/">Home</NavLink>
               </li>
@@ -150,10 +150,10 @@ const Navbar = () => {
             </ul>
           </div>
           <div className="navbar-end">
-            <button className="btn md:mr-2 bg-red-500 p-1 md:p-3 text-xs md:text-base">
+            <button className="btn md:mr-2 text-white bg-red-900 p-1 md:p-3 text-xs md:text-base">
               Apply for Investment
             </button>
-            <button className="btn bg-red-500 p-1 md:p-3 text-xs md:text-base">
+            <button className="btn bg-red-900 text-white p-1 md:p-3 text-xs md:text-base">
               Apply as Investor
             </button>
           </div>

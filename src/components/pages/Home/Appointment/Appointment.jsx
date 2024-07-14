@@ -17,7 +17,7 @@ const Appointment = () => {
 
   return (
     <div className="mb-10">
-      <div className="text-center container mx-auto text-white bg-red-900 rounded-xl">
+      <div className="text-center container max-w-[1320px] mx-auto text-white bg-red-900 rounded-xl">
         <h1 className="mb-6 font-bold text-3xl pt-6">
           Are You Ready? Book Appointment Now
         </h1>

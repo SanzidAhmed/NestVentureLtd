@@ -1,51 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import Swal from "sweetalert2";
 
-const DashboardBanner = () => {
+const DashboardServices = () => {
   const [items, setItems] = useState([]);
-
-  const handleDelete = (id) => {
-    Swal.fire({
-      title: "Are you sure?",
-      text: "You won't be able to revert this!",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, delete it!",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        fetch(`http://localhost:3300/slider/${id}`, {
-          method: "DELETE",
-        })
-          .then((res) => res.json())
-          .then((data) => {
-            if (data.deletedCount > 0) {
-              setItems(items.filter((item) => item._id !== id));
-              Swal.fire("Deleted!", "Your file has been deleted.", "success");
-            } else {
-              Swal.fire("Error!", "Something went wrong.", "error");
-            }
-          })
-          .catch((error) => {
-            Swal.fire("Error!", "Something went wrong.", "error");
-          });
-      }
-    });
-  };
-
   useEffect(() => {
-    fetch("http://localhost:3300/slider")
+    fetch("http://localhost:3300/services")
       .then((res) => res.json())
       .then((data) => setItems(data));
   }, []);
-
   return (
     <div className="container mx-auto border ">
       <div className="flex justify-between items-center py-2 border pr-2">
-        <h1 className="pl-4">Manage our About Section</h1>
-        <Link to="/dashboard/create-slider" className="btn btn-sm">
+        <h1 className="pl-4">Manage our Service Section</h1>
+        <Link to="/dashboard/create-service" className="btn btn-sm">
           Add New
         </Link>
       </div>
@@ -53,7 +20,8 @@ const DashboardBanner = () => {
         <thead className="bg-red-900 text-white">
           <tr>
             <th>Serial</th>
-            <th>Company Information</th>
+            <th>Images </th>
+            <th>Title</th>
             <th>Description</th>
             <th className="text-end">Action</th>
           </tr>
@@ -73,15 +41,17 @@ const DashboardBanner = () => {
                     </div>
                   </div>
                   <div>
-                    <div className="font-bold">{item.title}</div>
                     <div className="text-sm opacity-50">{item.link}</div>
                   </div>
                 </div>
               </td>
+              <td>
+                <div className="font-bold">{item.title}</div>
+              </td>
               <td className="w-2/5">{item.description}</td>
               <td className="gap-1 flex justify-end">
                 <Link
-                  to={`/dashboard/slider-update/${item._id}`}
+                  to={`/dashboard/services-update/${item._id}`}
                   className="btn btn-primary btn-xs"
                 >
                   Update
@@ -112,4 +82,4 @@ const DashboardBanner = () => {
   );
 };
 
-export default DashboardBanner;
+export default DashboardServices;

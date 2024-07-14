@@ -26,6 +26,10 @@ const Testimonial = () => {
     };
     fetchData();
   }, []);
+  const customButtonStyles = {
+    color: "white",
+    backgroundColor: "#7F1D1D",
+  };
   return (
     <div>
       {loading && (
@@ -40,7 +44,7 @@ const Testimonial = () => {
         <h1 className="text-3xl font-semibold pt-2 pb-10 text-center">
           What Our Clients Says
         </h1>
-        <div className="container mx-auto">
+        <div className="container mx-auto max-w-[1320px]">
           <Swiper
             spaceBetween={30}
             centeredSlides={true}
@@ -48,7 +52,6 @@ const Testimonial = () => {
               delay: 2500,
               disableOnInteraction: false,
             }}
-            navigation={true}
             modules={[Autoplay, Pagination, Navigation]}
             className="mySwiper"
           >

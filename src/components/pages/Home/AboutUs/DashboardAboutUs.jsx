@@ -9,14 +9,20 @@ const DashboardAboutUs = () => {
       .then((data) => setItems(data));
   }, []);
   return (
-    <div className="overflow-x-auto container mx-auto">
-      <table className="table">
+    <div className=" justify-start container mx-auto border border-red-500">
+      <div className="flex justify-between items-center py-2 border border-red-900 pr-2">
+        <h1 className="pl-4">Manage our About Section</h1>
+        <Link to="/dashboard/create-about-us" className="btn btn-sm">
+          Add New
+        </Link>
+      </div>
+      <table className="table ">
         {/* head */}
-        <thead>
+        <thead className="bg-red-900 text-white ">
           <tr>
             <th>Company Information</th>
             <th>Description</th>
-            <th>Action</th>
+            <th className="text-end">Action</th>
           </tr>
         </thead>
         <tbody>
@@ -40,12 +46,18 @@ const DashboardAboutUs = () => {
                 </div>
               </td>
               <td className="w-2/5">{item.description}</td>
-              <th>
+              <th className="gap-4 flex justify-end">
                 <Link
                   to={`/dashboard/about-company-information-update/${item._id}`}
                   className="btn btn-primary btn-xs"
                 >
                   Update
+                </Link>
+                <Link
+                  to={`/dashboard/about-company-information-update/${item._id}`}
+                  className="btn btn-primary bg-red-600 btn-xs"
+                >
+                  Delete
                 </Link>
               </th>
             </tr>

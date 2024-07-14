@@ -4,7 +4,7 @@ import Marquee from "react-fast-marquee";
 const Sponsored = () => {
   return (
     <div className="">
-      <div className="container mx-auto">
+      <div className="container mx-auto max-w-[1320px]">
         <Marquee className="">
           <img
             className="h-48 w-48" // Adjust the height and width as needed

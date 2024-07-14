@@ -25,7 +25,7 @@ const Services = () => {
           <div className="loader ease-linear rounded-full border-4 border-t-4 border-gray-200 h-12 w-12"></div>
         </div>
       )}
-      <div className="container mx-auto mb-16">
+      <div className="container mx-auto mb-16 max-w-[1320px]">
         <h3 className="text-center text-3xl font-semibold mt-16">Services</h3>
         <h2 className="text-center text-5xl font-semibold mt-6 mb-10">
           Exceptional NEST Services{" "}

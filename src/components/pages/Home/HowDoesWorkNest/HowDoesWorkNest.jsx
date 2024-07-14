@@ -24,7 +24,7 @@ const HowDoesWorkNest = () => {
           <div className="loader ease-linear rounded-full border-4 border-t-4 border-gray-200 h-12 w-12"></div>
         </div>
       )}
-      <div className="container mx-auto">
+      <div className="container mx-auto max-w-[1320px]">
         {procedures.map((procedure) => (
           <div className="flex justify-between items-center">
             <div className="w-full relative">

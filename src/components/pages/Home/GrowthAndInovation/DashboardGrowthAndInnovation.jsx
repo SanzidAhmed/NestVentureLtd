@@ -2,13 +2,18 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 
-const DashboardBanner = () => {
+const DashboardGrowthAndInnovation = () => {
   const [items, setItems] = useState([]);
 
+  useEffect(() => {
+    fetch("http://localhost:3300/growth")
+      .then((res) => res.json())
+      .then((data) => setItems(data));
+  }, []);
   const handleDelete = (id) => {
     Swal.fire({
       title: "Are you sure?",
-      text: "You won't be able to revert this!",
+      text: "Do you want to delete this!",
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
@@ -16,7 +21,7 @@ const DashboardBanner = () => {
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        fetch(`http://localhost:3300/slider/${id}`, {
+        fetch(`http://localhost:3300/growth/${id}`, {
           method: "DELETE",
         })
           .then((res) => res.json())
@@ -34,27 +39,20 @@ const DashboardBanner = () => {
       }
     });
   };
-
-  useEffect(() => {
-    fetch("http://localhost:3300/slider")
-      .then((res) => res.json())
-      .then((data) => setItems(data));
-  }, []);
-
   return (
     <div className="container mx-auto border ">
       <div className="flex justify-between items-center py-2 border pr-2">
-        <h1 className="pl-4">Manage our About Section</h1>
-        <Link to="/dashboard/create-slider" className="btn btn-sm">
+        <h1 className="pl-4">Manage Innovation and Growth Section</h1>
+        <Link to="/dashboard/create-growth-innovation" className="btn btn-sm">
           Add New
         </Link>
       </div>
       <table className="table">
-        <thead className="bg-red-900 text-white">
+        <thead className="bg-red-900 text-white w-full">
           <tr>
             <th>Serial</th>
-            <th>Company Information</th>
-            <th>Description</th>
+            <th>Images</th>
+            <th>Title</th>
             <th className="text-end">Action</th>
           </tr>
         </thead>
@@ -73,15 +71,16 @@ const DashboardBanner = () => {
                     </div>
                   </div>
                   <div>
-                    <div className="font-bold">{item.title}</div>
                     <div className="text-sm opacity-50">{item.link}</div>
                   </div>
                 </div>
               </td>
-              <td className="w-2/5">{item.description}</td>
+              <td>
+                <div className="font-bold">{item.title}</div>
+              </td>
               <td className="gap-1 flex justify-end">
                 <Link
-                  to={`/dashboard/slider-update/${item._id}`}
+                  to={`/dashboard/growth-update/${item._id}`}
                   className="btn btn-primary btn-xs"
                 >
                   Update
@@ -112,4 +111,4 @@ const DashboardBanner = () => {
   );
 };
 
-export default DashboardBanner;
+export default DashboardGrowthAndInnovation;

@@ -48,7 +48,7 @@ const AboutUs = () => {
                 <p className="w-5/6">{company.section1Description}</p>
               </div>
             </div>
-            <button className="btn bg-red-600 mt-10 text-2xl px-8 text-white">
+            <button className="btn bg-red-900 mt-10 text-md hover:bg-red-800 px-8  text-white">
               Read More
             </button>
           </div>
