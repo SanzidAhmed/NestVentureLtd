@@ -44,7 +44,7 @@ const Testimonial = () => {
         <h1 className="text-3xl font-semibold pt-2 pb-10 text-center">
           What Our Clients Says
         </h1>
-        <div className="container mx-auto max-w-[1320px]">
+        <div className="container mx-auto max-w-[1320px] pb-10">
           <Swiper
             spaceBetween={30}
             centeredSlides={true}
@@ -59,7 +59,7 @@ const Testimonial = () => {
               <SwiperSlide>
                 <div className="testimonial-slide text-center ">
                   <h2 className="font-bold text-5xl">{testimonial.name}</h2>
-                  <p className="px-96">{testimonial.testimonial}</p>
+                  <p className="md:px-96">{testimonial.testimonial}</p>
                 </div>
               </SwiperSlide>
             ))}

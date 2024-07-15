@@ -21,7 +21,7 @@ const GrowthAndInovation = () => {
         </h1>
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mt-10">
           {growth.map((companyGrowth) => (
-            <div key={companyGrowth._id} className="pb-10">
+            <div key={companyGrowth._id} className="pb-16">
               <div className="card bg-base-100 w-full shadow-xl relative rounded-none">
                 <div className="relative">
                   <img

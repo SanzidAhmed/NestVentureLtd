@@ -102,7 +102,7 @@ const Navbar = () => {
               <Link to="/" className=" text-xl">
                 <img
                   className=" btn hover:bg-white bg-white border-none shadow-none"
-                  src="https://i.ibb.co/k47dWCf/Security-Agency-Shield-Logo-design-template-removebg-preview.png"
+                  src="https://i.ibb.co/HBSJn8G/Colorful-Illustrative-Hummingbird-Animals-Logo-removebg-preview.png"
                   alt=""
                 />
               </Link>

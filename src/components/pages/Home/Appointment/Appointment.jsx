@@ -25,7 +25,7 @@ const Appointment = () => {
           Get your Quote or Call (096) 96232337, (880) 1913 511 188
         </h1>
         {forms.map((form) => (
-          <div className="pb-16">
+          <div className="pb-10">
             <button
               className="btn mr-2 bg-red-950 text-white"
               onClick={() => openGoogleForm(form.applyForInvestment)}

@@ -3,55 +3,58 @@ import { Link } from "react-router-dom";
 
 const DashboardCompanyVideo = () => {
   const [items, setItems] = useState([]);
+
   useEffect(() => {
     fetch("http://localhost:3300/video")
       .then((res) => res.json())
       .then((data) => setItems(data));
   }, []);
+
   return (
-    <div className="overflow-x-auto container mx-auto">
-      <table className="table">
-        {/* head */}
-        <thead>
-          <tr>
-            <th>Image</th>
-            <th>Title</th>
-            <th>Description</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          {/* row 1 */}
-          {items.map((item, index) => (
-            <tr key={index}>
-              <td>
-                <div className="flex items-center gap-3">
-                  <div className="avatar">
-                    <div className="mask mask-squircle h-12 w-12">
-                      <img
-                        src={item.thumbnail}
-                        alt="Avatar Tailwind CSS Component"
-                      />
+    <div className="container mx-auto p-4">
+      <div className="overflow-x-auto">
+        <table className="min-w-full bg-white border border-gray-300">
+          <thead className="bg-red-900 text-white">
+            <tr>
+              <th className="px-4 py-2">Image</th>
+              <th className="px-4 py-2">Title</th>
+              <th className="px-4 py-2">Description</th>
+              <th className="px-4 py-2">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {items.map((item, index) => (
+              <tr key={item._id} className="border-b">
+                <td className="px-4 py-2">
+                  <div className="flex items-center gap-3">
+                    <div className="avatar">
+                      <div className="mask mask-squircle h-12 w-12">
+                        <img
+                          src={item.thumbnail}
+                          alt="Thumbnail"
+                          className="rounded-full"
+                        />
+                      </div>
                     </div>
                   </div>
-                </div>
-              </td>
-              <td>
-                <div className="font-bold">{item.title}</div>
-              </td>
-              <td className="w-2/5">{item.description}</td>
-              <th>
-                <Link
-                  to={`/dashboard/video-update/${item._id}`}
-                  className="btn btn-primary btn-xs"
-                >
-                  Update
-                </Link>
-              </th>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+                </td>
+                <td className="px-4 py-2">
+                  <div className="font-bold">{item.title}</div>
+                </td>
+                <td className="px-4 py-2 w-2/5">{item.description}</td>
+                <td className="px-4 py-2">
+                  <Link
+                    to={`/dashboard/video-update/${item._id}`}
+                    className="btn btn-primary btn-xs"
+                  >
+                    Update
+                  </Link>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };

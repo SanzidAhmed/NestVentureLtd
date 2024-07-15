@@ -25,22 +25,28 @@ const Services = () => {
           <div className="loader ease-linear rounded-full border-4 border-t-4 border-gray-200 h-12 w-12"></div>
         </div>
       )}
-      <div className="container mx-auto mb-16 max-w-[1320px]">
-        <h3 className="text-center text-3xl font-semibold mt-16">Services</h3>
-        <h2 className="text-center text-5xl font-semibold mt-6 mb-10">
-          Exceptional NEST Services{" "}
+      <div className="container mx-auto px-4 pb-16 max-w-[1320px]">
+        <h3 className="text-center text-xl md:text-3xl font-semibold mt-10">
+          Services
+        </h3>
+        <h2 className="text-center text-xl md:text-5xl font-semibold mt-6 mb-10">
+          Exceptional NEST Services
         </h2>
-        <div className="grid grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
           {services.map((service) => (
             <div
               key={service._id}
-              className="card bg-base-100 w-full shadow-xl "
+              className="card bg-base-100 w-full shadow-xl"
             >
               <figure>
-                <img src={service.image} alt="Shoes" />
+                <img
+                  src={service.image}
+                  alt="Service"
+                  className="w-full h-48 object-cover"
+                />
               </figure>
               <div className="p-4">
-                <h2 className="text-xl font-bold mb-4">{service.title}</h2>
+                <h2 className="text-xl font-bold pb-4">{service.title}</h2>
                 <p>{service.description}</p>
               </div>
             </div>

@@ -1,56 +1,94 @@
 import React from "react";
+import { IoMdCall } from "react-icons/io";
+import { MdAttachEmail } from "react-icons/md";
+import { FaLocationDot } from "react-icons/fa6";
 
 const Footer = () => {
   return (
     <div>
       <div className="bg-red-900">
-        <div className="container mx-auto max-w-[1320px]">
-          <footer className="footer bg-red-900 text-white p-10">
-            <nav>
-              <h6 className="footer-title">Services</h6>
-              <a className="link link-hover">Branding</a>
-              <a className="link link-hover">Design</a>
-              <a className="link link-hover">Marketing</a>
-              <a className="link link-hover">Advertisement</a>
+        <div className="container mx-auto px-4 max-w-[1320px]">
+          <footer className="footer grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 bg-red-900 text-white p-10">
+            <nav className="w-full col-span-2">
+              <img
+                src="https://i.ibb.co/HBSJn8G/Colorful-Illustrative-Hummingbird-Animals-Logo-removebg-preview.png"
+                alt=""
+                className="h-16 mb-4"
+              />
+              <p className="">
+                At NEST, we empower entrepreneurs to reach their goals with
+                comprehensive training, expert consultancy, strategic
+                networking, and valuable investment opportunities. Partner with
+                us to transform your vision into reality and elevate your
+                business to new heights.
+              </p>
+              <a className="link link-hover inline-flex gap-2 items-center mt-6">
+                <IoMdCall className="text-xl" />
+                Phone: (880) 9696 232 337 (880) 1913 511 188
+              </a>
+              <a className="link link-hover inline-flex gap-2 items-center mt-2">
+                <MdAttachEmail className="text-xl" />
+                Email: info@nestventuresltd.com
+              </a>
+              <a className="link link-hover inline-flex gap-2 items-center mt-2">
+                <FaLocationDot className="text-xl" />
+                Address: House 10, Main Road, Block C, Banasree, Rampura, Dhaka
+                1219
+              </a>
             </nav>
-            <nav>
-              <h6 className="footer-title">Company</h6>
-              <a className="link link-hover">About us</a>
-              <a className="link link-hover">Contact</a>
-              <a className="link link-hover">Jobs</a>
-              <a className="link link-hover">Press kit</a>
+            <nav className="w-full">
+              <h6 className="footer-title font-bold mb-4">Quick Links</h6>
+              <a className="link link-hover block mb-2">About</a>
+              <a className="link link-hover block mb-2">
+                Return and Refund Policy
+              </a>
+              <a className="link link-hover block mb-2">Terms & Conditions</a>
+              <a className="link link-hover block">Privacy Policy</a>
             </nav>
-            <nav>
-              <h6 className="footer-title">Legal</h6>
-              <a className="link link-hover">Terms of use</a>
-              <a className="link link-hover">Privacy policy</a>
-              <a className="link link-hover">Cookie policy</a>
-            </nav>
-            <form>
-              <h6 className="footer-title">Newsletter</h6>
-              <fieldset className="form-control w-80">
-                <label className="label">
-                  <span className="label-text">Enter your email address</span>
-                </label>
-                <div className="join">
-                  <input
-                    type="text"
-                    placeholder="username@site.com"
-                    className="input input-bordered join-item"
-                  />
-                  <button className="btn btn-primary join-item">
-                    Subscribe
-                  </button>
-                </div>
-              </fieldset>
+            <form className="w-full">
+              <h6 className="footer-title font-bold mb-4">Newsletter</h6>
+              <p className="mb-4">
+                Accusamus et iusto odio quas molestias except.
+              </p>
+              <input
+                type="email"
+                name="email"
+                id=""
+                placeholder="Enter your email"
+                className="h-10 w-full mb-3 p-2 text-black"
+              />
+              <button className="btn rounded-none w-full bg-red-950 text-white">
+                Subscribe
+              </button>
             </form>
+            <nav className="w-full">
+              <h6 className="footer-title font-bold mb-4">What We Do</h6>
+              <a className="link link-hover block mb-2">
+                Financial Support & Consultancy
+              </a>
+              <a className="link link-hover block mb-2">
+                Mentorship & Guidance
+              </a>
+              <a className="link link-hover block mb-2">
+                Business Plan & Strategy
+              </a>
+              <a className="link link-hover block mb-2">
+                Marketing & Branding Assistance
+              </a>
+              <a className="link link-hover block mb-2">
+                Networking Opportunities
+              </a>
+              <a className="link link-hover block mb-2">Technology Support</a>
+              <a className="link link-hover block mb-2">Legal Support</a>
+              <a className="link link-hover block">Emotional Support</a>
+            </nav>
           </footer>
         </div>
       </div>
       <footer className="footer footer-center bg-slate-800 text-white p-4">
         <aside>
           <p>
-            Copyright © ${new Date().getFullYear()} - All right reserved by
+            Copyright © {new Date().getFullYear()} - All rights reserved by
             Sanzid Ahmed
           </p>
         </aside>

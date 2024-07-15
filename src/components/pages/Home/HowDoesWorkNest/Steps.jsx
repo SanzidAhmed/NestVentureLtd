@@ -11,7 +11,7 @@ const Steps = () => {
       });
   }, []);
   return (
-    <div className="mt-4 ">
+    <div className="mt-4 mb-20 ">
       {steps.map((step) => (
         <div key={step._id} className="flex justify-between gap-4 mb-4">
           <p>
