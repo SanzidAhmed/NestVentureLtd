@@ -21,7 +21,9 @@ const HowDoesWorkNest = () => {
     };
     fetchData();
   }, []);
-
+  function isObjectEmpty(obj) {
+    return Object.keys(obj).length === 0 && obj.constructor === Object;
+  }
   return (
     <div>
       {loading && (
@@ -37,14 +39,18 @@ const HowDoesWorkNest = () => {
           >
             <div className="w-full relative mb-6 lg:mb-0">
               <img
-                className="absolute top-0 h-[300px] lg:h-[600px] object-cover w-full"
-                src={procedure.mainImage}
-                alt="Main"
-              />
-              <img
-                className="relative w-full h-[300px] lg:h-auto object-cover"
+                className=" w-full h-[300px] lg:h-full object-cover"
                 src="https://i.ibb.co/Trqm3JT/works-shape1.png"
                 alt="Shape"
+              />
+              <img
+                className="absolute top-0 h-[300px] lg:h-full object-cover w-full"
+                src={
+                  isObjectEmpty(procedure.image)
+                    ? procedure.mainImage
+                    : procedure.image
+                }
+                alt="Main"
               />
             </div>
             <div className="w-full lg:w-1/2">

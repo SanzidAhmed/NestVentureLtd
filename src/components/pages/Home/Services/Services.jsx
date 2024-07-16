@@ -18,6 +18,9 @@ const Services = () => {
     };
     fetchData();
   }, []);
+  function isObjectEmpty(obj) {
+    return Object.keys(obj).length === 0 && obj.constructor === Object;
+  }
   return (
     <div>
       {loading && (
@@ -40,9 +43,13 @@ const Services = () => {
             >
               <figure>
                 <img
-                  src={service.image}
+                  src={
+                    isObjectEmpty(service.image)
+                      ? service.mainImage
+                      : service.image
+                  }
                   alt="Service"
-                  className="w-full h-48 object-cover"
+                  className="w-full h-80 object-cover"
                 />
               </figure>
               <div className="p-4">

@@ -10,7 +10,7 @@ const DashboardAboutUs = () => {
   }, []);
   return (
     <div className="container mx-auto p-4">
-      <div className="flex flex-wrap justify-between items-center py-2 border-b border-red-900 pr-2 mb-4">
+      <div className="flex flex-wrap justify-between items-center py-2 border-b  pr-2 mb-4">
         <h1 className="pl-4 text-lg font-semibold">Manage Our About Section</h1>
         <Link
           to="/dashboard/create-about-us"

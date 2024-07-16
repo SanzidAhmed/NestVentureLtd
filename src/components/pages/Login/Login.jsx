@@ -13,10 +13,10 @@ const Login = () => {
   const {
     register,
     handleSubmit,
-    watch,
     reset,
     formState: { errors },
   } = useForm();
+
   const onSubmit = (data) => {
     console.log(data.email);
     logIn(data.email, data.password).then((result) => {
@@ -29,57 +29,49 @@ const Login = () => {
   };
 
   return (
-    <div>
-      <div className="hero bg-base-200 min-h-screen">
-        <div className="hero-content flex-col lg:flex-row-reverse">
-          <div className="text-center lg:text-left">
-            <h1 className="text-5xl font-bold">Login now!</h1>
-            <p className="py-6">
-              Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda
-              excepturi exercitationem quasi. In deleniti eaque aut repudiandae
-              et a id nisi.
-            </p>
+    <div className="min-h-screen flex items-center justify-center bg-base-200 ">
+      <div className="hero-content flex-col lg:flex-row-reverse ">
+        <div className="card bg-base-100 md:w-[500px] w-full shrink-0 shadow-2xl rounded-none ">
+          <div className=" flex justify-center items-center">
+            <img
+              src="https://i.ibb.co/HBSJn8G/Colorful-Illustrative-Hummingbird-Animals-Logo-removebg-preview.png"
+              alt=""
+              className="h-40 py-4 md:py-6 w-40  "
+            />
           </div>
-          <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
-            <form onSubmit={handleSubmit(onSubmit)} className="card-body">
-              <div className="form-control">
-                <label className="label">
-                  <span className="label-text">Email</span>
-                </label>
-                <input
-                  type="email"
-                  {...register("email", { required: true })}
-                  placeholder="email"
-                  className="input input-bordered"
-                  required
-                />
-              </div>
-              <div className="form-control">
-                <label className="label">
-                  <span className="label-text">Password</span>
-                </label>
-                <input
-                  type="password"
-                  {...register("password", { required: true })}
-                  placeholder="password"
-                  className="input input-bordered"
-                  required
-                />
-                <label className="label">
-                  <Link to="/register" className="text-base underline">
-                    Register here
-                  </Link>
-                </label>
-              </div>
-              <div className="form-control mt-6">
-                <input
-                  type="submit"
-                  value="Login"
-                  className="btn btn-primary"
-                ></input>
-              </div>
-            </form>
-          </div>
+          <form onSubmit={handleSubmit(onSubmit)} className="card-body ">
+            <div className="form-control">
+              <input
+                type="email"
+                {...register("email", { required: true })}
+                placeholder="Email"
+                className="input input-bordered rounded-none"
+                required
+              />
+              {errors.email && (
+                <span className="text-red-500">Email is required</span>
+              )}
+            </div>
+            <div className="form-control">
+              <input
+                type="password"
+                {...register("password", { required: true })}
+                placeholder="Password"
+                className="input input-bordered rounded-none"
+                required
+              />
+              {errors.password && (
+                <span className="text-red-500">Password is required</span>
+              )}
+            </div>
+            <div className="form-control mt-6">
+              <input
+                type="submit"
+                value="Login"
+                className="btn btn-primary bg-red-900 text-white border-none hover:bg-red-700 rounded-none"
+              ></input>
+            </div>
+          </form>
         </div>
       </div>
     </div>

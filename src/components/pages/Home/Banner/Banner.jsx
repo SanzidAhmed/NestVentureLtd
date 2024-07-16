@@ -23,7 +23,9 @@ const Banner = () => {
 
     fetchData();
   }, []);
-
+  function isObjectEmpty(obj) {
+    return Object.keys(obj).length === 0 && obj.constructor === Object;
+  }
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-screen bg-gray-100">
@@ -56,7 +58,7 @@ const Banner = () => {
           <SwiperSlide key={index}>
             <img
               className="h-[700px] w-full object-cover"
-              src={slide.image}
+              src={isObjectEmpty(slide.image) ? slide.mainImage : slide.image}
               alt={slide.title}
             />
             <div className="absolute bottom-10 left-10 text-white">

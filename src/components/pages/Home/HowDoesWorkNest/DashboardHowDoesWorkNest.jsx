@@ -42,7 +42,7 @@ const DashboardHowDoesWorkNest = () => {
                     <div className="avatar">
                       <div className="mask mask-squircle h-12 w-12">
                         <img
-                          src={item.mainImage}
+                          src={item.image}
                           alt="Avatar"
                           className="rounded-full"
                         />

@@ -10,6 +10,9 @@ const GrowthAndInovation = () => {
         setGrowth(data);
       });
   }, []);
+  function isObjectEmpty(obj) {
+    return Object.keys(obj).length === 0 && obj.constructor === Object;
+  }
   return (
     <div className="bg-red-50">
       <div className="container mx-auto max-w-[1320px]">
@@ -25,7 +28,11 @@ const GrowthAndInovation = () => {
               <div className="card bg-base-100 w-full shadow-xl relative rounded-none">
                 <div className="relative">
                   <img
-                    src={companyGrowth.image}
+                    src={
+                      isObjectEmpty(companyGrowth.image)
+                        ? companyGrowth.mainImage
+                        : companyGrowth.image
+                    }
                     alt="Shoes"
                     className="w-full h-[350px]"
                   />

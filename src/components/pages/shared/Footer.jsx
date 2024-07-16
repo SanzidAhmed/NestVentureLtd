@@ -8,8 +8,8 @@ const Footer = () => {
     <div>
       <div className="bg-red-900">
         <div className="container mx-auto px-4 max-w-[1320px]">
-          <footer className="footer grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 bg-red-900 text-white p-10">
-            <nav className="w-full col-span-2">
+          <footer className="footer grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-4 gap-8 bg-red-900 text-white p-10">
+            <nav className="w-full md:col-span-2">
               <img
                 src="https://i.ibb.co/HBSJn8G/Colorful-Illustrative-Hummingbird-Animals-Logo-removebg-preview.png"
                 alt=""

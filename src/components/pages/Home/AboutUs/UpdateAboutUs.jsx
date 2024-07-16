@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useLoaderData } from "react-router-dom";
 import Swal from "sweetalert2";
@@ -15,51 +15,88 @@ const UpdateAboutUs = () => {
     section1Description,
     section2Title,
     section2Description,
+    mainImage,
   } = item;
 
   const { register, handleSubmit, reset } = useForm();
+  const [previewImage, setPreviewImage] = useState(mainImage);
   const image_hosting_url = `https://api.imgbb.com/1/upload?key=${image_hosting_token}`;
 
   const onSubmit = (data) => {
-    const formData = new FormData();
-    formData.append("image", data.imageSrc[0]);
+    if (data.image.length === 0) {
+      const updatedData = {
+        title: data.title,
+        description: data.description,
+        headline: data.headline,
+        section1Title: data.section1Title,
+        section1Description: data.section1Description,
+        section2Title: data.section2Title,
+        section2Description: data.section2Description,
+        image: data.image || previewImage,
+      };
+      updateAboutUs(updatedData);
+    } else {
+      const formData = new FormData();
+      formData.append("image", data.image[0]);
+      fetch(image_hosting_url, {
+        method: "POST",
+        body: formData,
+      })
+        .then((res) => res.json())
+        .then((imgbbResult) => {
+          if (imgbbResult.success) {
+            const imageUrl = imgbbResult.data.display_url;
+            const updatedData = {
+              title: data.title,
+              description: data.description,
+              headline: data.headline,
+              section1Title: data.section1Title,
+              section1Description: data.section1Description,
+              section2Title: data.section2Title,
+              section2Description: data.section2Description,
+              image: imageUrl,
+            };
+            updateAboutUs(updatedData);
+          } else {
+            throw new Error("Image upload failed");
+          }
+        })
+        .catch((error) => {
+          Swal.fire("Error updating data", error.message, "error");
+        });
+    }
+  };
 
-    fetch(image_hosting_url, {
-      method: "POST",
-      body: formData,
+  const updateAboutUs = (updatedData) => {
+    fetch(`http://localhost:3300/about-company/${_id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(updatedData), // Use updatedData here
     })
       .then((res) => res.json())
-      .then((imgbbResult) => {
-        console.log(imgbbResult);
-        if (imgbbResult.success) {
-          const imageUrl = imgbbResult.data.display_url;
-          const updatedData = {
-            ...data,
-            imageSrc: imageUrl, // Update imageSrc with the new URL
-          };
-
-          return fetch(`http://localhost:3300/about-company/${_id}`, {
-            method: "PUT",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(updatedData), // Use updatedData here
-          });
-        } else {
-          throw new Error("Image upload failed");
-        }
-      })
-      .then((res) => res.json())
       .then((result) => {
-        Swal.fire("Data updated successfully");
+        Swal.fire("Company About section updated successfully");
         reset(result);
+        setPreviewImage(result.image);
       })
       .catch((error) => {
-        Swal.fire("Error updating data", error.message, "error");
+        Swal.fire("Error updating Banner", error.message, "error");
       });
   };
+  const handleImageChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        setPreviewImage(e.target.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
   return (
-    <div className="bg-white">
+    <div className="bg-white w-full p-32">
       <h1 className="w-full font-extrabold text-3xl mb-14 text-center">
         About Us
       </h1>
@@ -160,7 +197,7 @@ const UpdateAboutUs = () => {
                 defaultValue={section1Description}
                 placeholder="section1Description"
                 name="section1Description"
-                className="input input-bordered rounded-lg w-96"
+                className="input input-bordered rounded-lg w-full"
               />
             </label>
           </div>
@@ -184,15 +221,16 @@ const UpdateAboutUs = () => {
 
           <div className="form-control md:w-full">
             <label className="label">
-              <span className="label-text text-lg font-medium">Image Link</span>
+              <span className="label-text text-lg font-medium">Image</span>
             </label>
             <label className="">
               <input
-                {...register("imageSrc")}
-                placeholder="imageSrc"
-                name="imageSrc"
+                {...register("image")}
+                placeholder="image"
+                name="image"
+                onChange={handleImageChange}
                 type="file"
-                className="file-input file-input-bordered file-input-secondary w-full max-w-xs"
+                className="file-input file-input-bordered w-full"
               />
             </label>
           </div>
@@ -200,7 +238,7 @@ const UpdateAboutUs = () => {
         <input
           type="submit"
           value="Update About Section"
-          className="btn btn-block bg-yellow-500 hover:bg-yellow-700 mt-4"
+          className="btn btn-block bg-red-900 hover:bg-red-700 text-white mt-4"
         />
       </form>
     </div>

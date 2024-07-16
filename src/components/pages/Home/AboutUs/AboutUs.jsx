@@ -12,7 +12,8 @@ const AboutUs = () => {
         setAbout(data);
       });
   }, []);
-  {
+  function isObjectEmpty(obj) {
+    return Object.keys(obj).length === 0 && obj.constructor === Object;
   }
   return (
     <div className="container max-w-[1320px] mx-auto my-24">
@@ -55,7 +56,9 @@ const AboutUs = () => {
           <div>
             <img
               className="w-full h-full rounded-tl-[60px]"
-              src={company.imageSrc}
+              src={
+                isObjectEmpty(company.image) ? company.mainImage : company.image
+              }
               alt={company.imageAlt}
             />
           </div>

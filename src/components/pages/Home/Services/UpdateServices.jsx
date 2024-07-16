@@ -1,27 +1,78 @@
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useLoaderData } from "react-router-dom";
 import Swal from "sweetalert2";
+const image_hosting_token = import.meta.env.VITE_Image_Upload_Token;
 
 const UpdateServices = () => {
   const item = useLoaderData();
-  const { title, image, _id, description } = item;
+  const { title, mainImage, _id, description } = item;
   const { register, handleSubmit, reset } = useForm();
+  const [previewImage, setPreviewImage] = useState(mainImage);
+  const image_hosting_url = `https://api.imgbb.com/1/upload?key=${image_hosting_token}`;
+
   const onSubmit = (data) => {
+    if (data.image.length === 0) {
+      const updatedData = {
+        title: data.title,
+        description: data.description,
+        image: data.image || previewImage,
+      };
+      updateService(updatedData);
+    } else {
+      const formData = new FormData();
+      formData.append("image", data.image[0]);
+      fetch(image_hosting_url, {
+        method: "POST",
+        body: formData,
+      })
+        .then((res) => res.json())
+        .then((imgbbResult) => {
+          if (imgbbResult.success) {
+            const imageUrl = imgbbResult.data.display_url;
+            const updatedData = {
+              title: data.title,
+              description: data.description,
+              image: imageUrl,
+            };
+            updateService(updatedData);
+          } else {
+            throw new Error("Image upload failed");
+          }
+        })
+        .catch((error) => {
+          Swal.fire("Error updating data", error.message, "error");
+        });
+    }
+  };
+  const updateService = (updatedData) => {
     fetch(`http://localhost:3300/services/${_id}`, {
       method: "PUT",
       headers: {
-        "content-type": "application/json",
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify(data),
+      body: JSON.stringify(updatedData), // Use updatedData here
     })
       .then((res) => res.json())
       .then((result) => {
-        Swal.fire("Services Section updated successfully");
+        Swal.fire("Service updated successfully");
         reset(result);
+        setPreviewImage(result.image);
+      })
+      .catch((error) => {
+        Swal.fire("Error updating Banner", error.message, "error");
       });
   };
-
+  const handleImageChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        setPreviewImage(e.target.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
   return (
     <div className="bg-white p-32 w-full">
       <h1 className="text-center font-extrabold text-3xl mb-14 w-full">
@@ -61,18 +112,18 @@ const UpdateServices = () => {
               />
             </label>
           </div>
-          <div className="form-control w-full">
+          <div className="form-control md:w-full">
             <label className="label">
-              <span className="label-text text-lg font-medium">Image Link</span>
+              <span className="label-text text-lg font-medium">Image</span>
             </label>
             <label className="">
               <input
-                type="text"
                 {...register("image")}
-                defaultValue={image}
-                placeholder="Image"
+                placeholder="image"
                 name="image"
-                className="input input-bordered rounded-lg w-full"
+                onChange={handleImageChange}
+                type="file"
+                className="file-input file-input-bordered w-full"
               />
             </label>
           </div>
