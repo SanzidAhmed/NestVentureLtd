@@ -29,6 +29,8 @@ import DashboardHowDoesWorkNest from "./components/pages/Home/HowDoesWorkNest/Da
 import DashboardSteps from "./components/pages/Home/HowDoesWorkNest/DashboardSteps.jsx";
 import UpdateSteps from "./components/pages/Home/HowDoesWorkNest/UpdateSteps.jsx";
 import UpdateHowDoesWorkNest from "./components/pages/Home/HowDoesWorkNest/UpdateHowDoesWorkNest.jsx";
+import RegistrationFormForInvestor from "./components/pages/RegistrationFormForInvestor/RegistrationFormForInvestor.jsx";
+import DashboardInvestorRegistrationList from "./components/pages/RegistrationFormForInvestor/DashboardInvestorRegistrationList.jsx";
 
 const router = createBrowserRouter([
   {
@@ -47,6 +49,10 @@ const router = createBrowserRouter([
       //   path: "/register",
       //   element: <Register></Register>,
       // },
+      {
+        path: "/register-as-investor",
+        element: <RegistrationFormForInvestor></RegistrationFormForInvestor>,
+      },
     ],
   },
   {
@@ -184,6 +190,12 @@ const router = createBrowserRouter([
         ),
         loader: ({ params }) =>
           fetch(`http://localhost:3300/steps/${params.id}`),
+      },
+      {
+        path: "investor-registration-form",
+        element: (
+          <DashboardInvestorRegistrationList></DashboardInvestorRegistrationList>
+        ),
       },
     ],
   },

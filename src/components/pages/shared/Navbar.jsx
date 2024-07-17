@@ -150,9 +150,12 @@ const Navbar = () => {
             </ul>
           </div>
           <div className="navbar-end">
-            <button className="btn md:mr-2 text-white bg-red-900 p-1 md:p-3 text-xs md:text-base">
-              Apply for Investment
-            </button>
+            <Link
+              to="/register-as-investor"
+              className="btn md:mr-2 text-white bg-red-900 p-1 md:p-3 text-xs md:text-base"
+            >
+              Registration as Investor
+            </Link>
             <button className="btn bg-red-900 text-white p-1 md:p-3 text-xs md:text-base">
               Apply as Investor
             </button>

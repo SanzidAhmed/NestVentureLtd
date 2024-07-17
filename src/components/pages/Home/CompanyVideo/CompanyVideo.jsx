@@ -26,7 +26,8 @@ const CompanyVideo = () => {
   const toggleVideo = () => {
     setShowVideo(true); // Always set showVideo to true when clicking the play icon
   };
-
+  const url =
+    "https://www.youtube.com/embed/WAA35lxpzuc?rel=0&amp;modestbranding=1&amp;autohide=1&amp;mute=1&amp;showinfo=0&amp;autoplay=1";
   return (
     <div>
       {loading && (
@@ -67,16 +68,18 @@ const CompanyVideo = () => {
                   >
                     &#x2715;
                   </button>
-                  <iframe
-                    width="560"
-                    height="315"
-                    src={video.videoUrl}
-                    title="YouTube video player"
-                    frameBorder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                    referrerPolicy="strict-origin-when-cross-origin"
-                    allowFullScreen
-                  ></iframe>
+                  <div class="iframe-container">
+                    <iframe
+                      width="560"
+                      height="315"
+                      src={`https://www.youtube.com/embed/${video.videoUrl}`}
+                      title="YouTube video player"
+                      frameborder="0"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                      referrerpolicy="strict-origin-when-cross-origin"
+                      allowfullscreen
+                    ></iframe>
+                  </div>
                 </div>
               </div>
             )}

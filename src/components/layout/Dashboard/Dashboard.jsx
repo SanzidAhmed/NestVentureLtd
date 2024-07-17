@@ -2,6 +2,7 @@ import React, { useContext, useState } from "react";
 import { Link, NavLink, Outlet } from "react-router-dom";
 import { AuthContext } from "../../provider/AuthProvider";
 import { FaChevronRight, FaPenFancy, FaPlay } from "react-icons/fa";
+import { FaUserFriends } from "react-icons/fa";
 
 const Dashboard = () => {
   const { logOut } = useContext(AuthContext);
@@ -136,6 +137,7 @@ const Dashboard = () => {
                   <FaChevronRight />
                 </Link>
               </li>
+
               {isUpdateSectionOpen && (
                 <>
                   <li className="text-sm w-full pl-2 bg-white border-white text-black hover:bg-gray-100">
@@ -203,6 +205,7 @@ const Dashboard = () => {
                       <FaPlay className="text-xs" />
                       How Does Nest Work
                     </NavLink>
+
                     {isNestWorkOpen && (
                       <>
                         <li className="text-sm w-full pl-2 bg-white border-white text-black hover:bg-gray-100">
@@ -228,6 +231,15 @@ const Dashboard = () => {
                   </ul>
                 </>
               )}
+              <li>
+                <NavLink
+                  to="/dashboard/investor-registration-form"
+                  className="flex items-center gap-2"
+                >
+                  <FaUserFriends className="text-xs" />
+                  Investor Registration data
+                </NavLink>
+              </li>
             </ul>
           </div>
         </div>
