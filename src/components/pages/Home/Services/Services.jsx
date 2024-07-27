@@ -33,7 +33,7 @@ const Services = () => {
           Services
         </h3>
         <h2 className="text-center text-xl md:text-5xl font-semibold mt-6 mb-10">
-          Exceptional NEST Services
+          Exceptional Business Box Services
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
           {services.map((service) => (

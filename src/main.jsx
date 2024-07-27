@@ -31,6 +31,10 @@ import UpdateSteps from "./components/pages/Home/HowDoesWorkNest/UpdateSteps.jsx
 import UpdateHowDoesWorkNest from "./components/pages/Home/HowDoesWorkNest/UpdateHowDoesWorkNest.jsx";
 import RegistrationFormForInvestor from "./components/pages/RegistrationFormForInvestor/RegistrationFormForInvestor.jsx";
 import DashboardInvestorRegistrationList from "./components/pages/RegistrationFormForInvestor/DashboardInvestorRegistrationList.jsx";
+import DashboardTestimonial from "./components/pages/Home/Testimonial/DashboardTestimonial.jsx";
+import UpdateTestimonial from "./components/pages/Home/Testimonial/UpdateTestimonial.jsx";
+import DashboardSponsored from "./components/pages/Home/Sponsored/DashboardSponsored.jsx";
+import UpdateSponsor from "./components/pages/Home/Sponsored/UpdateSponsor.jsx";
 
 const router = createBrowserRouter([
   {
@@ -196,6 +200,34 @@ const router = createBrowserRouter([
         element: (
           <DashboardInvestorRegistrationList></DashboardInvestorRegistrationList>
         ),
+      },
+      {
+        path: "testimonials",
+        element: <DashboardTestimonial></DashboardTestimonial>,
+      },
+      {
+        path: "testimonials/:id",
+        element: (
+          <PrivateRoute>
+            <UpdateTestimonial></UpdateTestimonial>
+          </PrivateRoute>
+        ),
+        loader: ({ params }) =>
+          fetch(`http://localhost:3300/testimonials/${params.id}`),
+      },
+      {
+        path: "sponsors",
+        element: <DashboardSponsored></DashboardSponsored>,
+      },
+      {
+        path: "sponsor-update/:id",
+        element: (
+          <PrivateRoute>
+            <UpdateSponsor></UpdateSponsor>
+          </PrivateRoute>
+        ),
+        loader: ({ params }) =>
+          fetch(`http://localhost:3300/sponsors/${params.id}`),
       },
     ],
   },

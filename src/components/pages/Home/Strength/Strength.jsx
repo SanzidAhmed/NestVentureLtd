@@ -10,7 +10,7 @@ const Strength = () => {
       <div className="container mx-auto px-4 pt-10 pb-16 max-w-[1320px]">
         <h3 className="text-center text-3xl font-semibold">Strength</h3>
         <h2 className="text-center text-5xl font-semibold pt-6 pb-10">
-          Empowering Your Business with NEST
+          Empowering Your Business with Business Box
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           <div className="bg-white p-6 md:p-10">

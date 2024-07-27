@@ -4,11 +4,11 @@ import { useLoaderData } from "react-router-dom";
 import Swal from "sweetalert2";
 const image_hosting_token = import.meta.env.VITE_Image_Upload_Token;
 
-const UpdateGrowthAndInnovation = () => {
+const UpdateSponsor = () => {
   const image_hosting_url = `https://api.imgbb.com/1/upload?key=${image_hosting_token}`;
-
   const item = useLoaderData();
-  const { title, image, _id, buttonText, mainImage } = item;
+  console.log(item);
+  const { image, _id, mainImage } = item;
   const { register, handleSubmit, reset } = useForm();
   const [previewImage, setPreviewImage] = useState(mainImage);
 
@@ -16,11 +16,9 @@ const UpdateGrowthAndInnovation = () => {
     console.log(data.image);
     if (data.image.length === 0) {
       const updatedData = {
-        title: data.title,
-        buttonText: data.buttonText,
         image: data.image || previewImage,
       };
-      updateGrowth(updatedData);
+      updateSponsor(updatedData);
     } else {
       const formData = new FormData();
       formData.append("image", data.image[0]);
@@ -33,11 +31,9 @@ const UpdateGrowthAndInnovation = () => {
           if (imgbbResult.success) {
             const imageUrl = imgbbResult.data.display_url;
             const updatedData = {
-              title: data.title,
-              buttonText: data.buttonText,
               image: imageUrl,
             };
-            updateGrowth(updatedData);
+            updateSponsor(updatedData);
           } else {
             throw new Error("Image upload failed");
           }
@@ -47,9 +43,8 @@ const UpdateGrowthAndInnovation = () => {
         });
     }
   };
-
-  const updateGrowth = (updatedData) => {
-    fetch(`http://localhost:3300/growth/${_id}`, {
+  const updateSponsor = (updatedData) => {
+    fetch(`http://localhost:3300/sponsors/${_id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -58,7 +53,7 @@ const UpdateGrowthAndInnovation = () => {
     })
       .then((res) => res.json())
       .then((result) => {
-        Swal.fire("Company growth updated successfully");
+        Swal.fire("Sponsor updated successfully");
         reset(result);
         setPreviewImage(result.image);
       })
@@ -66,7 +61,6 @@ const UpdateGrowthAndInnovation = () => {
         Swal.fire("Error updating growth", error.message, "error");
       });
   };
-
   const handleImageChange = (event) => {
     const file = event.target.files[0];
     if (file) {
@@ -81,24 +75,10 @@ const UpdateGrowthAndInnovation = () => {
   return (
     <div className="bg-white p-4 md:p-32 w-full">
       <h1 className="text-center font-extrabold text-2xl md:text-3xl mb-10 md:mb-14">
-        Update Growth and Innovation
+        Update Sponsor
       </h1>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         <div className="md:flex md:gap-5 space-y-4 md:space-y-0">
-          <div className="form-control w-full">
-            <label className="label">
-              <span className="label-text text-lg font-medium">Title</span>
-            </label>
-            <input
-              type="text"
-              {...register("title")}
-              defaultValue={title}
-              placeholder="Title"
-              name="title"
-              className="input input-bordered rounded-lg w-full"
-            />
-          </div>
-
           <div className="form-control w-full">
             <label className="label">
               <span className="label-text text-lg font-medium">Image</span>
@@ -107,25 +87,9 @@ const UpdateGrowthAndInnovation = () => {
               type="file"
               onChange={handleImageChange}
               {...register("image")}
-              placeholder="Image"
+              placeholder="image"
               name="image"
               className="w-full file-input file-input-bordered"
-            />
-          </div>
-
-          <div className="form-control w-full">
-            <label className="label">
-              <span className="label-text text-lg font-medium">
-                Button text
-              </span>
-            </label>
-            <input
-              type="text"
-              {...register("buttonText")}
-              defaultValue={buttonText}
-              placeholder="Button Text"
-              name="buttonText"
-              className="input input-bordered rounded-lg text-black w-full"
             />
           </div>
         </div>
@@ -139,4 +103,4 @@ const UpdateGrowthAndInnovation = () => {
   );
 };
 
-export default UpdateGrowthAndInnovation;
+export default UpdateSponsor;

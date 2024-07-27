@@ -16,8 +16,8 @@ const Footer = () => {
                 className="h-16 mb-4"
               />
               <p className="">
-                At NEST, we empower entrepreneurs to reach their goals with
-                comprehensive training, expert consultancy, strategic
+                At Business Box, we empower entrepreneurs to reach their goals
+                with comprehensive training, expert consultancy, strategic
                 networking, and valuable investment opportunities. Partner with
                 us to transform your vision into reality and elevate your
                 business to new heights.

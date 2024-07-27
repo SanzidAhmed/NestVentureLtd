@@ -20,7 +20,7 @@ const GrowthAndInovation = () => {
           Empowering Diverse Industries
         </h1>
         <h1 className="text-4xl font-bold mt-4 text-center text-red-900">
-          NEST Ventures Fuels Growth and Innovation
+          Business Box Fuels Growth and Innovation
         </h1>
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mt-10">
           {growth.map((companyGrowth) => (

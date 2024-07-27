@@ -194,6 +194,24 @@ const Dashboard = () => {
                       Company Video Update
                     </NavLink>
                   </li>
+                  <li className="text-sm w-full pl-2 bg-white border-white text-black hover:bg-gray-100">
+                    <NavLink
+                      to="/dashboard/testimonials"
+                      className="flex items-center gap-2"
+                    >
+                      <FaPlay className="text-xs" />
+                      Testimonial Update
+                    </NavLink>
+                  </li>
+                  <li className="text-sm w-full pl-2 bg-white border-white text-black hover:bg-gray-100">
+                    <NavLink
+                      to="/dashboard/sponsors"
+                      className="flex items-center gap-2"
+                    >
+                      <FaPlay className="text-xs" />
+                      Sponsors
+                    </NavLink>
+                  </li>
                   <ul
                     onClick={toggleNestWork}
                     className="text-sm w-full pl-6 bg-white border-white text-black hover:bg-white"
