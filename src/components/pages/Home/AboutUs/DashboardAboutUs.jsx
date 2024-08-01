@@ -12,12 +12,6 @@ const DashboardAboutUs = () => {
     <div className="container mx-auto p-4">
       <div className="flex flex-wrap justify-between items-center py-2 border-b  pr-2 mb-4">
         <h1 className="pl-4 text-lg font-semibold">Manage Our About Section</h1>
-        <Link
-          to="/dashboard/create-about-us"
-          className="btn btn-sm bg-red-600 text-white rounded-none"
-        >
-          Add New
-        </Link>
       </div>
       <div className="overflow-x-auto">
         <table className="min-w-full bg-white border border-gray-300">
@@ -57,12 +51,6 @@ const DashboardAboutUs = () => {
                   >
                     Update
                   </Link>
-                  <button
-                    className="btn btn-danger bg-red-600 btn-xs"
-                    onClick={() => handleDelete(item._id)}
-                  >
-                    Delete
-                  </button>
                 </td>
               </tr>
             ))}

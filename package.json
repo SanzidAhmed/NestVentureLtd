@@ -1,8 +1,8 @@
 {
   "name": "business-box",
-  "homepage": "https://businessbox.com",
-  "private": true,
   "version": "0.0.0",
+  "private": true,
+  "homepage": "http://businessboxclient.contain-i.com",
   "type": "module",
   "scripts": {
     "dev": "vite",

@@ -4,7 +4,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 import { Autoplay, Navigation } from "swiper/modules";
 import "./Banner.css"; // Import custom CSS
-
+// src={isObjectEmpty(slide.image) ? slide.mainImage : slide.image}
 const Banner = () => {
   const [slider, setSlider] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -58,7 +58,9 @@ const Banner = () => {
           <SwiperSlide key={index}>
             <img
               className="h-[700px] w-full object-cover"
-              src={isObjectEmpty(slide.image) ? slide.mainImage : slide.image}
+              src={`http://localhost:3300${
+                slide.image ? slide.image : slide.mainImage
+              }`}
               alt={slide.title}
             />
             <div className="absolute bottom-10 left-10 text-white">

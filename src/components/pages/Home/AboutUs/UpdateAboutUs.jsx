@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useLoaderData } from "react-router-dom";
 import Swal from "sweetalert2";
-const image_hosting_token = import.meta.env.VITE_Image_Upload_Token;
 
 const UpdateAboutUs = () => {
   const item = useLoaderData();
@@ -15,83 +14,55 @@ const UpdateAboutUs = () => {
     section1Description,
     section2Title,
     section2Description,
-    mainImage,
   } = item;
 
   const { register, handleSubmit, reset } = useForm();
-  const [previewImage, setPreviewImage] = useState(mainImage);
-  const image_hosting_url = `https://api.imgbb.com/1/upload?key=${image_hosting_token}`;
+  const [loading, setLoading] = useState(false);
 
-  const onSubmit = (data) => {
-    if (data.image.length === 0) {
-      const updatedData = {
-        title: data.title,
-        description: data.description,
-        headline: data.headline,
-        section1Title: data.section1Title,
-        section1Description: data.section1Description,
-        section2Title: data.section2Title,
-        section2Description: data.section2Description,
-        image: data.image || previewImage,
-      };
-      updateAboutUs(updatedData);
-    } else {
-      const formData = new FormData();
+  const onSubmit = async (data) => {
+    console.log(data);
+    setLoading(true);
+    const formData = new FormData();
+    formData.append("title", data.title);
+    formData.append("description", data.description);
+    formData.append("section1Title", data.section1Title);
+    formData.append("section1Description", data.section1Description);
+    formData.append("section2Title", data.section2Title);
+    formData.append("section2Description", data.section2Description);
+    formData.append("headline", data.headline);
+
+    if (data.image && data.image[0]) {
       formData.append("image", data.image[0]);
-      fetch(image_hosting_url, {
-        method: "POST",
-        body: formData,
-      })
-        .then((res) => res.json())
-        .then((imgbbResult) => {
-          if (imgbbResult.success) {
-            const imageUrl = imgbbResult.data.display_url;
-            const updatedData = {
-              title: data.title,
-              description: data.description,
-              headline: data.headline,
-              section1Title: data.section1Title,
-              section1Description: data.section1Description,
-              section2Title: data.section2Title,
-              section2Description: data.section2Description,
-              image: imageUrl,
-            };
-            updateAboutUs(updatedData);
-          } else {
-            throw new Error("Image upload failed");
-          }
-        })
-        .catch((error) => {
-          Swal.fire("Error updating data", error.message, "error");
-        });
+    }
+
+    try {
+      const response = await fetch(
+        `http://localhost:3300/about-company/${_id}`,
+        {
+          method: "PUT",
+          body: formData,
+        }
+      );
+      const result = await response.json();
+
+      if (response.ok) {
+        Swal.fire("About updated successfully");
+        reset(result); // Update the preview image URL
+      } else {
+        throw new Error(result.message || "Update failed");
+      }
+    } catch (error) {
+      Swal.fire("Error updating about section", error.message, "error");
+    } finally {
+      setLoading(false);
     }
   };
 
-  const updateAboutUs = (updatedData) => {
-    fetch(`http://localhost:3300/about-company/${_id}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(updatedData), // Use updatedData here
-    })
-      .then((res) => res.json())
-      .then((result) => {
-        Swal.fire("Company About section updated successfully");
-        reset(result);
-        setPreviewImage(result.image);
-      })
-      .catch((error) => {
-        Swal.fire("Error updating Banner", error.message, "error");
-      });
-  };
   const handleImageChange = (event) => {
     const file = event.target.files[0];
     if (file) {
       const reader = new FileReader();
-      reader.onload = (e) => {
-        setPreviewImage(e.target.result);
-      };
+
       reader.readAsDataURL(file);
     }
   };
@@ -237,7 +208,8 @@ const UpdateAboutUs = () => {
         </div>
         <input
           type="submit"
-          value="Update About Section"
+          value={loading ? "Updating..." : "Update About Section"}
+          disabled={loading}
           className="btn btn-block bg-red-900 hover:bg-red-700 text-white mt-4"
         />
       </form>

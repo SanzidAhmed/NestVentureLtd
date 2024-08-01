@@ -3,69 +3,43 @@ import { useForm } from "react-hook-form";
 import { useLoaderData } from "react-router-dom";
 import Swal from "sweetalert2";
 
-const image_hosting_token = import.meta.env.VITE_Image_Upload_Token;
-
 const UpdateBanner = () => {
   const item = useLoaderData();
-  const { title, _id, description, mainImage } = item;
+
+  const { title, _id, description } = item;
   const { register, handleSubmit, reset } = useForm();
-  const [previewImage, setPreviewImage] = useState(mainImage); // State to hold the preview image URL
-  const image_hosting_url = `https://api.imgbb.com/1/upload?key=${image_hosting_token}`;
+  const [loading, setLoading] = useState(false);
 
-  const onSubmit = (data) => {
-    if (data.image.length === 0) {
-      // If no new image is uploaded, retain the previous image URL
-      const updatedData = {
-        title: data.title,
-        description: data.description,
-        image: data.image || previewImage, // Retain the current mainImage
-      };
-      updateBanner(updatedData);
-    } else {
-      const formData = new FormData();
+  const onSubmit = async (data) => {
+    setLoading(true);
+    const formData = new FormData();
+    formData.append("title", data.title);
+    formData.append("description", data.description);
+    formData.append("link", data.link); // Add link field if necessary
+
+    if (data.image && data.image[0]) {
       formData.append("image", data.image[0]);
-      fetch(image_hosting_url, {
-        method: "POST",
-        body: formData,
-      })
-        .then((res) => res.json())
-        .then((imgbbResult) => {
-          console.log(imgbbResult);
-          if (imgbbResult.success) {
-            const imageUrl = imgbbResult.data.display_url;
-            const updatedData = {
-              title: data.title,
-              description: data.description,
-              image: imageUrl,
-            };
-            updateBanner(updatedData);
-          } else {
-            throw new Error("Image upload failed");
-          }
-        })
-        .catch((error) => {
-          Swal.fire("Error updating Banner", error.message, "error");
-        });
     }
-  };
 
-  const updateBanner = (updatedData) => {
-    fetch(`http://localhost:3300/slider/${_id}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(updatedData),
-    })
-      .then((res) => res.json())
-      .then((result) => {
+    try {
+      const response = await fetch(`http://localhost:3300/slider/${_id}`, {
+        method: "PUT",
+        body: formData,
+      });
+      const result = await response.json();
+
+      if (response.ok) {
         Swal.fire("Banner updated successfully");
         reset(result);
-        setPreviewImage(result.image); // Update the preview image URL
-      })
-      .catch((error) => {
-        Swal.fire("Error updating Banner", error.message, "error");
-      });
+        // Update the preview image URL
+      } else {
+        throw new Error(result.message || "Update failed");
+      }
+    } catch (error) {
+      Swal.fire("Error updating Banner", error.message, "error");
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleImageChange = (event) => {
@@ -139,8 +113,9 @@ const UpdateBanner = () => {
 
         <input
           type="submit"
-          value="Update Banner"
+          value={loading ? "Updating..." : "Update Banner"}
           className="btn btn-block bg-red-900 hover:bg-red-700 mt-4 text-white"
+          disabled={loading}
         />
       </form>
     </div>
