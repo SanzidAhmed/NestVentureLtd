@@ -2,74 +2,48 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useLoaderData } from "react-router-dom";
 import Swal from "sweetalert2";
-const image_hosting_token = import.meta.env.VITE_Image_Upload_Token;
 
 const UpdateServices = () => {
   const item = useLoaderData();
-  const { title, mainImage, _id, description } = item;
+  const { title, _id, description } = item;
   const { register, handleSubmit, reset } = useForm();
-  const [previewImage, setPreviewImage] = useState(mainImage);
-  const image_hosting_url = `https://api.imgbb.com/1/upload?key=${image_hosting_token}`;
+  const [loading, setLoading] = useState(false);
 
-  const onSubmit = (data) => {
-    if (data.image.length === 0) {
-      const updatedData = {
-        title: data.title,
-        description: data.description,
-        image: data.image || previewImage,
-      };
-      updateService(updatedData);
-    } else {
-      const formData = new FormData();
+  const onSubmit = async (data) => {
+    setLoading(true);
+    const formData = new FormData();
+    formData.append("title", data.title);
+    formData.append("description", data.description);
+
+    if (data.image && data.image[0]) {
       formData.append("image", data.image[0]);
-      fetch(image_hosting_url, {
-        method: "POST",
+    }
+
+    try {
+      const response = await fetch(`http://localhost:3300/services/${_id}`, {
+        method: "PUT",
         body: formData,
-      })
-        .then((res) => res.json())
-        .then((imgbbResult) => {
-          if (imgbbResult.success) {
-            const imageUrl = imgbbResult.data.display_url;
-            const updatedData = {
-              title: data.title,
-              description: data.description,
-              image: imageUrl,
-            };
-            updateService(updatedData);
-          } else {
-            throw new Error("Image upload failed");
-          }
-        })
-        .catch((error) => {
-          Swal.fire("Error updating data", error.message, "error");
-        });
+      });
+      const result = await response.json();
+
+      if (response.ok) {
+        Swal.fire("Service section updated successfully");
+        reset(result); // Update the preview image URL
+      } else {
+        throw new Error(result.message || "Update failed");
+      }
+    } catch (error) {
+      Swal.fire("Error updating service section", error.message, "error");
+    } finally {
+      setLoading(false);
     }
   };
-  const updateService = (updatedData) => {
-    fetch(`http://localhost:3300/services/${_id}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(updatedData), // Use updatedData here
-    })
-      .then((res) => res.json())
-      .then((result) => {
-        Swal.fire("Service updated successfully");
-        reset(result);
-        setPreviewImage(result.image);
-      })
-      .catch((error) => {
-        Swal.fire("Error updating Banner", error.message, "error");
-      });
-  };
+
   const handleImageChange = (event) => {
     const file = event.target.files[0];
     if (file) {
       const reader = new FileReader();
-      reader.onload = (e) => {
-        setPreviewImage(e.target.result);
-      };
+
       reader.readAsDataURL(file);
     }
   };
@@ -130,7 +104,8 @@ const UpdateServices = () => {
         </div>
         <input
           type="submit"
-          value="Update service"
+          value={loading ? "Updating..." : "Update service Section"}
+          disabled={loading}
           className="btn btn-block bg-red-900 hover:bg-red-700 mt-4 text-white"
         />
       </form>

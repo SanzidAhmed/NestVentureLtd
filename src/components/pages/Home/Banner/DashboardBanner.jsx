@@ -4,11 +4,10 @@ import Swal from "sweetalert2";
 
 const DashboardBanner = () => {
   const [items, setItems] = useState([]);
-
   const handleDelete = (id) => {
     Swal.fire({
       title: "Are you sure?",
-      text: "Do you want to delete",
+      text: "Do you want to delete this!",
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
@@ -19,22 +18,38 @@ const DashboardBanner = () => {
         fetch(`http://localhost:3300/slider/${id}`, {
           method: "DELETE",
         })
-          .then((res) => res.json())
+          .then((res) => {
+            // Check if the response is okay
+            if (!res.ok) {
+              throw new Error("Network response was not ok");
+            }
+            return res.json();
+          })
           .then((data) => {
-            if (data.deletedCount > 0) {
-              setItems(items.filter((item) => item._id !== id));
+            // Assuming the backend response includes a message field
+            if (
+              data.deletedCount > 0 ||
+              data.message ===
+                "Growth and associated image deleted successfully"
+            ) {
+              setItems((prevItems) =>
+                prevItems.filter((item) => item._id !== id)
+              );
               Swal.fire("Deleted!", "Your file has been deleted.", "success");
             } else {
-              Swal.fire("Error!", "Something went wrong.", "error");
+              Swal.fire(
+                "Error!",
+                "Something went wrong or item not found.",
+                "error"
+              );
             }
           })
           .catch((error) => {
-            Swal.fire("Error!", "Something went wrong.", "error");
+            Swal.fire("Error!", error.message, "error");
           });
       }
     });
   };
-
   useEffect(() => {
     fetch("http://localhost:3300/slider")
       .then((res) => res.json())

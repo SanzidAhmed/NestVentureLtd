@@ -6,71 +6,50 @@ const image_hosting_token = import.meta.env.VITE_Image_Upload_Token;
 
 const UpdateHowDoesWorkNest = () => {
   const item = useLoaderData();
-  const { title, _id, description, mainImage } = item;
+  const { title, _id, description, subtitle } = item;
   const { register, handleSubmit, reset } = useForm();
-  const [previewImage, setPreviewImage] = useState(mainImage);
+  const [loading, setLoading] = useState(false);
 
-  const image_hosting_url = `https://api.imgbb.com/1/upload?key=${image_hosting_token}`;
+  const onSubmit = async (data) => {
+    setLoading(true);
+    const formData = new FormData();
+    formData.append("title", data.title);
+    formData.append("subtitle", data.subtitle);
+    formData.append("description", data.description);
 
-  const onSubmit = (data) => {
-    if (data.image.length === 0) {
-      const updatedData = {
-        title: data.title,
-        description: data.description,
-        image: data.image || previewImage,
-      };
-      updateWork(updatedData);
-    } else {
-      const formData = new FormData();
+    if (data.image && data.image[0]) {
       formData.append("image", data.image[0]);
-      fetch(image_hosting_url, {
-        method: "POST",
-        body: formData,
-      })
-        .then((res) => res.json())
-        .then((imgbbResult) => {
-          if (imgbbResult.success) {
-            const imageUrl = imgbbResult.data.display_url;
-            const updatedData = {
-              title: data.title,
-              description: data.description,
-              image: imageUrl,
-            };
-            updateWork(updatedData);
-          } else {
-            throw new Error("Image upload failed");
-          }
-        })
-        .catch((error) => {
-          Swal.fire("Error updating data", error.message, "error");
-        });
     }
-  };
-  const updateWork = (updatedData) => {
-    fetch(`http://localhost:3300/how-does-nest-works/${_id}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(updatedData), // Use updatedData here
-    })
-      .then((res) => res.json())
-      .then((result) => {
+
+    try {
+      const response = await fetch(
+        `http://localhost:3300/how-does-nest-works/${_id}`,
+        {
+          method: "PUT",
+          body: formData,
+        }
+      );
+      const result = await response.json();
+
+      if (response.ok) {
         Swal.fire("Body section updated successfully");
         reset(result);
-        setPreviewImage(result.image);
-      })
-      .catch((error) => {
-        Swal.fire("Error updating Banner", error.message, "error");
-      });
+        // Update the preview image URL
+      } else {
+        throw new Error(result.message || "Update failed");
+      }
+    } catch (error) {
+      Swal.fire("Error updating Body", error.message, "error");
+    } finally {
+      setLoading(false);
+    }
   };
+
   const handleImageChange = (event) => {
     const file = event.target.files[0];
     if (file) {
       const reader = new FileReader();
-      reader.onload = (e) => {
-        setPreviewImage(e.target.result);
-      };
+
       reader.readAsDataURL(file);
     }
   };
@@ -90,6 +69,21 @@ const UpdateHowDoesWorkNest = () => {
                 defaultValue={title}
                 placeholder="Title"
                 name="title"
+                className="input input-bordered rounded-lg w-full"
+              />
+            </label>
+          </div>
+          <div className="form-control md:w-1/2">
+            <label className="label">
+              <span className="label-text text-lg font-medium ">Title</span>
+            </label>
+            <label className="">
+              <input
+                type="text"
+                {...register("subtitle")}
+                defaultValue={subtitle}
+                placeholder="subtitle"
+                name="subtitle"
                 className="input input-bordered rounded-lg w-full"
               />
             </label>
@@ -129,7 +123,8 @@ const UpdateHowDoesWorkNest = () => {
         </div>
         <input
           type="submit"
-          value="Update Body"
+          value={loading ? "Updating..." : "Update Body"}
+          disabled={loading}
           className="btn btn-block bg-red-900 hover:bg-red-700 mt-4 text-white"
         />
       </form>

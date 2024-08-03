@@ -45,11 +45,9 @@ const HowDoesWorkNest = () => {
               />
               <img
                 className="absolute top-0 h-[300px] lg:h-full object-cover w-full"
-                src={
-                  isObjectEmpty(procedure.image)
-                    ? procedure.mainImage
-                    : procedure.image
-                }
+                src={`http://localhost:3300${
+                  procedure.image ? procedure.image : procedure.mainImage
+                }`}
                 alt="Main"
               />
             </div>

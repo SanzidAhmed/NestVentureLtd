@@ -43,11 +43,9 @@ const Services = () => {
             >
               <figure>
                 <img
-                  src={
-                    isObjectEmpty(service.image)
-                      ? service.mainImage
-                      : service.image
-                  }
+                  src={`http://localhost:3300${
+                    service.image ? service.image : service.mainImage
+                  }`}
                   alt="Service"
                   className="w-full h-80 object-cover"
                 />

@@ -21,7 +21,6 @@ import DashboardStatistics from "./components/pages/Home/Statistics/DashboardSta
 import UpdateStatistics from "./components/pages/Home/Statistics/UpdateStatistics.jsx";
 import DashboardCompanyVideo from "./components/pages/Home/CompanyVideo/DashboardCompanyVideo.jsx";
 import UpdateCompanyVideo from "./components/pages/Home/CompanyVideo/UpdateCompanyVideo.jsx";
-import CreateAboutUs from "./components/pages/Home/AboutUs/CreateAboutUs.jsx";
 import CreateBanner from "./components/pages/Home/Banner/CreateBanner.jsx";
 import CreateGrowthAndInnovation from "./components/pages/Home/GrowthAndInovation/CreateGrowthAndInnovation.jsx";
 import CreateService from "./components/pages/Home/Services/CreateService.jsx";
@@ -49,10 +48,7 @@ const router = createBrowserRouter([
         path: "/login",
         element: <Login></Login>,
       },
-      // {
-      //   path: "/register",
-      //   element: <Register></Register>,
-      // },
+
       {
         path: "/register-as-investor",
         element: <RegistrationFormForInvestor></RegistrationFormForInvestor>,
@@ -89,10 +85,7 @@ const router = createBrowserRouter([
         path: "about-us",
         element: <DashboardAboutUs></DashboardAboutUs>,
       },
-      {
-        path: "create-about-us",
-        element: <CreateAboutUs></CreateAboutUs>,
-      },
+
       {
         path: "about-company-information-update/:id",
         element: (

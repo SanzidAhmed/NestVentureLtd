@@ -17,12 +17,6 @@ const DashboardHowDoesWorkNest = () => {
           <h1 className="text-2xl font-bold text-gray-800">
             Manage How Company Works
           </h1>
-          <Link
-            to="/dashboard/create-growth-innovation"
-            className="btn btn-sm bg-red-600 text-white rounded-none"
-          >
-            Add New
-          </Link>
         </div>
         <table className="min-w-full bg-white border border-gray-300 mt-4">
           <thead className="bg-red-900 text-white">

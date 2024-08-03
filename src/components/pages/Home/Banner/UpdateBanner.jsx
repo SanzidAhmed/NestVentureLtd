@@ -46,9 +46,7 @@ const UpdateBanner = () => {
     const file = event.target.files[0];
     if (file) {
       const reader = new FileReader();
-      reader.onload = (e) => {
-        setPreviewImage(e.target.result);
-      };
+
       reader.readAsDataURL(file);
     }
   };
@@ -114,8 +112,8 @@ const UpdateBanner = () => {
         <input
           type="submit"
           value={loading ? "Updating..." : "Update Banner"}
-          className="btn btn-block bg-red-900 hover:bg-red-700 mt-4 text-white"
           disabled={loading}
+          className="btn btn-block bg-red-900 hover:bg-red-700 mt-4 text-white"
         />
       </form>
     </div>

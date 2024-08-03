@@ -20,7 +20,6 @@ const UpdateAboutUs = () => {
   const [loading, setLoading] = useState(false);
 
   const onSubmit = async (data) => {
-    console.log(data);
     setLoading(true);
     const formData = new FormData();
     formData.append("title", data.title);

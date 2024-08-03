@@ -4,7 +4,7 @@ import Marquee from "react-fast-marquee";
 const Sponsored = () => {
   const [items, setItems] = useState([]);
   useEffect(() => {
-    fetch("https://businessbox.contain-i.com/index/sponsors")
+    fetch("http://localhost:3300/sponsors")
       .then((res) => res.json())
       .then((data) => setItems(data));
   }, []);

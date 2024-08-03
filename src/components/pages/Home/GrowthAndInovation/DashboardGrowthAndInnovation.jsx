@@ -8,8 +8,14 @@ const DashboardGrowthAndInnovation = () => {
   useEffect(() => {
     fetch("http://localhost:3300/growth")
       .then((res) => res.json())
-      .then((data) => setItems(data));
-  }, []);
+      .then((data) => {
+        setItems(data);
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+        Swal.fire("Error", "Failed to fetch data", "error");
+      });
+  }, [items]);
 
   const handleDelete = (id) => {
     Swal.fire({
@@ -25,17 +31,34 @@ const DashboardGrowthAndInnovation = () => {
         fetch(`http://localhost:3300/growth/${id}`, {
           method: "DELETE",
         })
-          .then((res) => res.json())
+          .then((res) => {
+            // Check if the response is okay
+            if (!res.ok) {
+              throw new Error("Network response was not ok");
+            }
+            return res.json();
+          })
           .then((data) => {
-            if (data.deletedCount > 0) {
-              setItems(items.filter((item) => item._id !== id));
+            // Assuming the backend response includes a message field
+            if (
+              data.deletedCount > 0 ||
+              data.message ===
+                "Growth and associated image deleted successfully"
+            ) {
+              setItems((prevItems) =>
+                prevItems.filter((item) => item._id !== id)
+              );
               Swal.fire("Deleted!", "Your file has been deleted.", "success");
             } else {
-              Swal.fire("Error!", "Something went wrong.", "error");
+              Swal.fire(
+                "Error!",
+                "Something went wrong or item not found.",
+                "error"
+              );
             }
           })
           .catch((error) => {
-            Swal.fire("Error!", "Something went wrong.", "error");
+            Swal.fire("Error!", error.message, "error");
           });
       }
     });
@@ -58,9 +81,9 @@ const DashboardGrowthAndInnovation = () => {
         <table className="min-w-full bg-white border border-gray-300">
           <thead className="bg-red-900 text-white">
             <tr>
-              <th className="px-4 py-2">Serial</th>
-              <th className="px-4 py-2">Images</th>
-              <th className="px-4 py-2">Title</th>
+              <th className="px-4 py-2 text-left">Serial</th>
+              <th className="px-4 py-2 text-left">Images</th>
+              <th className="px-4 py-2 text-left">Title</th>
               <th className="px-4 py-2 text-right">Action</th>
             </tr>
           </thead>
@@ -73,7 +96,7 @@ const DashboardGrowthAndInnovation = () => {
                     <div className="avatar">
                       <div className="mask mask-squircle h-12 w-12">
                         <img
-                          src={item.image}
+                          src={`http://localhost:3300${item.image}`}
                           alt="Avatar Tailwind CSS Component"
                         />
                       </div>

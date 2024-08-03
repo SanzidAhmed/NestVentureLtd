@@ -56,9 +56,7 @@ const AboutUs = () => {
           <div>
             <img
               className="w-full h-full rounded-tl-[60px]"
-              src={
-                isObjectEmpty(company.image) ? company.mainImage : company.image
-              }
+              src={`http://localhost:3300${company.image}`}
               alt={company.imageAlt}
             />
           </div>
