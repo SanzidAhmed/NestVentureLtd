@@ -8,7 +8,7 @@ const UpdateSteps = () => {
   const { title, _id, description } = item;
   const { register, handleSubmit, reset } = useForm();
   const onSubmit = (data) => {
-    fetch(`http://localhost:3300/steps/${_id}`, {
+    fetch(`https://nest-venture-ltd-server.vercel.app/steps/${_id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -39,7 +39,7 @@ const UpdateSteps = () => {
                 defaultValue={title}
                 placeholder="Title"
                 name="title"
-                className="input input-bordered rounded-lg w-full"
+                className="input input-bordered rounded-lg w-full  bg-white"
               />
             </label>
           </div>
@@ -56,7 +56,7 @@ const UpdateSteps = () => {
                 defaultValue={description}
                 placeholder="Description"
                 name="description"
-                className="input input-bordered rounded-lg w-full"
+                className="input input-bordered rounded-lg w-full bg-white"
               />
             </label>
           </div>

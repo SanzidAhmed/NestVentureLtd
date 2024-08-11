@@ -6,15 +6,17 @@ const DashboardServices = () => {
   const [items, setItems] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:3300/services")
+    fetch("https://nest-venture-ltd-server.vercel.app/services")
       .then((res) => res.json())
       .then((data) => setItems(data));
   }, []);
-
+  function isObjectEmpty(obj) {
+    return Object.keys(obj).length === 0 && obj.constructor === Object;
+  }
   const handleDelete = (id) => {
     Swal.fire({
       title: "Are you sure?",
-      text: "Do you want to delete this!",
+      text: "You won't be able to revert this!",
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
@@ -22,37 +24,24 @@ const DashboardServices = () => {
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        fetch(`http://localhost:3300/services/${id}`, {
+        fetch(`https://nest-venture-ltd-server.vercel.app/services/${id}`, {
           method: "DELETE",
         })
-          .then((res) => {
-            // Check if the response is okay
-            if (!res.ok) {
-              throw new Error("Network response was not ok");
-            }
-            return res.json();
-          })
+          .then((res) => res.json())
           .then((data) => {
-            // Assuming the backend response includes a message field
-            if (
-              data.deletedCount > 0 ||
-              data.message ===
-                "Growth and associated image deleted successfully"
-            ) {
-              setItems((prevItems) =>
-                prevItems.filter((item) => item._id !== id)
-              );
-              Swal.fire("Deleted!", "Your file has been deleted.", "success");
-            } else {
+            if (data.deletedCount > 0) {
+              setItems(items.filter((item) => item._id !== id));
               Swal.fire(
-                "Error!",
-                "Something went wrong or item not found.",
-                "error"
+                "Deleted!",
+                "Your section has been deleted.",
+                "success"
               );
+            } else {
+              Swal.fire("Error!", "Something went wrong.", "error");
             }
           })
           .catch((error) => {
-            Swal.fire("Error!", error.message, "error");
+            Swal.fire("Error!", "Something went wrong.", "error");
           });
       }
     });
@@ -91,7 +80,11 @@ const DashboardServices = () => {
                     <div className="avatar">
                       <div className="mask mask-squircle h-12 w-12">
                         <img
-                          src={item.image}
+                          src={
+                            isObjectEmpty(item.image)
+                              ? item.mainImage
+                              : item.image
+                          }
                           alt="Avatar Tailwind CSS Component"
                         />
                       </div>

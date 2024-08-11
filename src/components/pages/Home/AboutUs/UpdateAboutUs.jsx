@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useLoaderData } from "react-router-dom";
 import Swal from "sweetalert2";
+const image_hosting_token = import.meta.env.VITE_Image_Upload_Token;
 
 const UpdateAboutUs = () => {
   const item = useLoaderData();
@@ -17,51 +18,74 @@ const UpdateAboutUs = () => {
   } = item;
 
   const { register, handleSubmit, reset } = useForm();
-  const [loading, setLoading] = useState(false);
+  const image_hosting_url = `https://api.imgbb.com/1/upload?key=${image_hosting_token}`;
 
-  const onSubmit = async (data) => {
-    setLoading(true);
-    const formData = new FormData();
-    formData.append("title", data.title);
-    formData.append("description", data.description);
-    formData.append("section1Title", data.section1Title);
-    formData.append("section1Description", data.section1Description);
-    formData.append("section2Title", data.section2Title);
-    formData.append("section2Description", data.section2Description);
-    formData.append("headline", data.headline);
-
-    if (data.image && data.image[0]) {
+  const onSubmit = (data) => {
+    if (data.image.length === 0) {
+      const updatedData = {
+        title: data.title,
+        description: data.description,
+        headline: data.headline,
+        section1Title: data.section1Title,
+        section1Description: data.section1Description,
+        section2Title: data.section2Title,
+        section2Description: data.section2Description,
+      };
+      updateAboutUs(updatedData);
+    } else {
+      const formData = new FormData();
       formData.append("image", data.image[0]);
-    }
-
-    try {
-      const response = await fetch(
-        `http://localhost:3300/about-company/${_id}`,
-        {
-          method: "PUT",
-          body: formData,
-        }
-      );
-      const result = await response.json();
-
-      if (response.ok) {
-        Swal.fire("About updated successfully");
-        reset(result); // Update the preview image URL
-      } else {
-        throw new Error(result.message || "Update failed");
-      }
-    } catch (error) {
-      Swal.fire("Error updating about section", error.message, "error");
-    } finally {
-      setLoading(false);
+      fetch(image_hosting_url, {
+        method: "POST",
+        body: formData,
+      })
+        .then((res) => res.json())
+        .then((imgbbResult) => {
+          if (imgbbResult.success) {
+            const imageUrl = imgbbResult.data.display_url;
+            const updatedData = {
+              title: data.title,
+              description: data.description,
+              headline: data.headline,
+              section1Title: data.section1Title,
+              section1Description: data.section1Description,
+              section2Title: data.section2Title,
+              section2Description: data.section2Description,
+              image: imageUrl,
+            };
+            updateAboutUs(updatedData);
+          } else {
+            throw new Error("Image upload failed");
+          }
+        })
+        .catch((error) => {
+          Swal.fire("Error updating data", error.message, "error");
+        });
     }
   };
 
+  const updateAboutUs = (updatedData) => {
+    fetch(`https://nest-venture-ltd-server.vercel.app/about-company/${_id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(updatedData), // Use updatedData here
+    })
+      .then((res) => res.json())
+      .then((result) => {
+        Swal.fire("Company About section updated successfully");
+        reset(result);
+      })
+      .catch((error) => {
+        Swal.fire("Error updating About", error.message, "error");
+      });
+  };
   const handleImageChange = (event) => {
     const file = event.target.files[0];
     if (file) {
       const reader = new FileReader();
-
+      reader.onload = (e) => {};
       reader.readAsDataURL(file);
     }
   };
@@ -83,7 +107,7 @@ const UpdateAboutUs = () => {
                 defaultValue={title}
                 placeholder="Title"
                 name="title"
-                className="input input-bordered rounded-lg w-full"
+                className="input input-bordered rounded-lg w-full bg-white"
               />
             </label>
           </div>
@@ -99,7 +123,7 @@ const UpdateAboutUs = () => {
                 defaultValue={headline}
                 placeholder="Headline"
                 name="headline"
-                className="input input-bordered rounded-lg w-full"
+                className="input input-bordered rounded-lg w-full bg-white"
               />
             </label>
           </div>
@@ -116,7 +140,7 @@ const UpdateAboutUs = () => {
                 defaultValue={description}
                 placeholder="Description"
                 name="description"
-                className="input input-bordered rounded-lg w-full"
+                className="input input-bordered rounded-lg w-full  bg-white"
               />
             </label>
           </div>
@@ -133,7 +157,7 @@ const UpdateAboutUs = () => {
                 defaultValue={section1Title}
                 placeholder="section1Title"
                 name="section1Title"
-                className="input input-bordered rounded-lg w-full"
+                className="input input-bordered rounded-lg w-full bg-white"
               />
             </label>
           </div>
@@ -150,7 +174,7 @@ const UpdateAboutUs = () => {
                 defaultValue={section2Title}
                 placeholder="section2Title"
                 name="section2Title"
-                className="input input-bordered rounded-lg w-full"
+                className="input input-bordered rounded-lg w-full bg-white"
               />
             </label>
           </div>
@@ -167,7 +191,7 @@ const UpdateAboutUs = () => {
                 defaultValue={section1Description}
                 placeholder="section1Description"
                 name="section1Description"
-                className="input input-bordered rounded-lg w-full"
+                className="input input-bordered rounded-lg w-full bg-white"
               />
             </label>
           </div>
@@ -184,7 +208,7 @@ const UpdateAboutUs = () => {
                 defaultValue={section2Description}
                 placeholder="section2Description"
                 name="section2Description"
-                className="input input-bordered rounded-lg w-full"
+                className="input input-bordered rounded-lg w-full bg-white"
               />
             </label>
           </div>
@@ -200,15 +224,14 @@ const UpdateAboutUs = () => {
                 name="image"
                 onChange={handleImageChange}
                 type="file"
-                className="file-input file-input-bordered w-full"
+                className="file-input file-input-bordered w-full bg-white"
               />
             </label>
           </div>
         </div>
         <input
           type="submit"
-          value={loading ? "Updating..." : "Update About Section"}
-          disabled={loading}
+          value="Update About Section"
           className="btn btn-block bg-red-900 hover:bg-red-700 text-white mt-4"
         />
       </form>

@@ -29,7 +29,7 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-base-200 ">
+    <div className="min-h-screen flex items-center justify-center bg-white ">
       <div className="hero-content flex-col lg:flex-row-reverse ">
         <div className="card bg-base-100 md:w-[500px] w-full shrink-0 shadow-2xl rounded-none ">
           <div className=" flex justify-center items-center">

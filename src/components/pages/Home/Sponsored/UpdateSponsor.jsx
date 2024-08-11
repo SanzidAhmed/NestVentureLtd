@@ -8,16 +8,13 @@ const UpdateSponsor = () => {
   const image_hosting_url = `https://api.imgbb.com/1/upload?key=${image_hosting_token}`;
   const item = useLoaderData();
   console.log(item);
-  const { image, _id, mainImage } = item;
+  const { image, _id } = item;
   const { register, handleSubmit, reset } = useForm();
-  const [previewImage, setPreviewImage] = useState(mainImage);
 
   const onSubmit = (data) => {
     console.log(data.image);
     if (data.image.length === 0) {
-      const updatedData = {
-        image: data.image || previewImage,
-      };
+      const updatedData = {};
       updateSponsor(updatedData);
     } else {
       const formData = new FormData();
@@ -44,7 +41,7 @@ const UpdateSponsor = () => {
     }
   };
   const updateSponsor = (updatedData) => {
-    fetch(`http://localhost:3300/sponsors/${_id}`, {
+    fetch(`https://nest-venture-ltd-server.vercel.app/sponsors/${_id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -55,7 +52,6 @@ const UpdateSponsor = () => {
       .then((result) => {
         Swal.fire("Sponsor updated successfully");
         reset(result);
-        setPreviewImage(result.image);
       })
       .catch((error) => {
         Swal.fire("Error updating growth", error.message, "error");
@@ -65,9 +61,7 @@ const UpdateSponsor = () => {
     const file = event.target.files[0];
     if (file) {
       const reader = new FileReader();
-      reader.onload = (e) => {
-        setPreviewImage(e.target.result);
-      };
+      reader.onload = (e) => {};
       reader.readAsDataURL(file);
     }
   };

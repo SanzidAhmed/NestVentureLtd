@@ -12,7 +12,7 @@ import Testimonial from "../../pages/Home/Testimonial/Testimonial";
 
 const Home = () => {
   return (
-    <div>
+    <div className="bg-white text-black">
       <Banner></Banner>
       <AboutUs></AboutUs>
       <GrowthAndInovation></GrowthAndInovation>

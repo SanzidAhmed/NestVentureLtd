@@ -14,7 +14,7 @@ const DashboardSteps = () => {
 
   const fetchSteps = (page) => {
     fetch(
-      `http://localhost:3300/steps-dashboard?page=${page}&limit=${itemsPerPage}`
+      `https://nest-venture-ltd-server.vercel.app/steps-dashboard?page=${page}&limit=${itemsPerPage}`
     )
       .then((res) => res.json())
       .then((data) => {
@@ -34,7 +34,7 @@ const DashboardSteps = () => {
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        fetch(`http://localhost:3300/steps/${id}`, {
+        fetch(`https://nest-venture-ltd-server.vercel.app/steps/${id}`, {
           method: "DELETE",
         })
           .then((res) => res.json())
@@ -59,12 +59,12 @@ const DashboardSteps = () => {
     <div className="container mx-auto p-4">
       <div className="flex items-center justify-between mb-4">
         <h1 className="text-lg font-semibold text-gray-800">Manage Steps</h1>
-        <Link
+        {/* <Link
           to="/dashboard/create-step"
           className="btn btn-sm bg-red-600 text-white rounded-none"
         >
           Add New
-        </Link>
+        </Link> */}
       </div>
       <div className="overflow-x-auto">
         <table className="min-w-full bg-white border border-gray-300 rounded-lg">

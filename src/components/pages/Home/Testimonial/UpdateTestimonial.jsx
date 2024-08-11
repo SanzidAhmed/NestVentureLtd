@@ -8,7 +8,7 @@ const UpdateTestimonial = () => {
   const { testimonial, name, _id } = item;
   const { register, handleSubmit, reset } = useForm();
   const onSubmit = (data) => {
-    fetch(`http://localhost:3300/testimonials/${_id}`, {
+    fetch(`https://nest-venture-ltd-server.vercel.app/testimonials/${_id}`, {
       method: "PUT",
       headers: {
         "content-type": "application/json",

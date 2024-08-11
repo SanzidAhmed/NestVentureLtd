@@ -1,30 +1,56 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const DashboardInvestorRegistrationList = () => {
   const [items, setItems] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:3300/register-as-investor")
+    fetch("https://nest-venture-ltd-server.vercel.app/register-as-investor")
       .then((res) => res.json())
       .then((data) => setItems(data));
   }, []);
 
   const handleDelete = (id) => {
-    // Implement delete functionality here
-    console.log(`Deleting item with id: ${id}`);
+    Swal.fire({
+      title: "Are you sure?",
+      text: "Do you want to delete",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        fetch(
+          `https://nest-venture-ltd-server.vercel.app/register-as-investor/${id}`,
+          {
+            method: "DELETE",
+          }
+        )
+          .then((res) => res.json())
+          .then((data) => {
+            if (data.deletedCount > 0) {
+              setItems(items.filter((item) => item._id !== id));
+              Swal.fire("Deleted!", "Your file has been deleted.", "success");
+            } else {
+              Swal.fire("Error!", "Something went wrong.", "error");
+            }
+          })
+          .catch((error) => {
+            console.error("Error details:", error);
+            Swal.fire("Error!", "Something went wrong.", "error");
+          });
+      }
+    });
   };
-
   return (
     <div className="container mx-auto p-4">
       <div className="flex flex-wrap justify-between items-center py-2 border-b pr-2 mb-4">
         <h1 className="pl-4 text-lg font-semibold">
           Manage Investor Registrations
         </h1>
-        <Link
-          to="/dashboard/create-investor"
-          className="btn btn-sm bg-red-600 text-white rounded-none"
-        >
+        <Link className="btn btn-sm bg-red-600 text-white rounded-none">
           Add New
         </Link>
       </div>
@@ -66,13 +92,7 @@ const DashboardInvestorRegistrationList = () => {
                 <td className="px-4 py-2">{item.interestedInvestmentType}</td>
                 <td className="px-4 py-2">{item.interestedInvestmentRegion}</td>
                 <td className="px-4 py-2">{item.investmentPattern}</td>
-                <td className="px-4 py-2 flex justify-end gap-2">
-                  <Link
-                    to={`/dashboard/edit-investor/${item._id}`}
-                    className="btn btn-primary btn-xs"
-                  >
-                    Edit
-                  </Link>
+                <td className="px-4 py-2">
                   <button
                     className="btn btn-danger bg-red-600 btn-xs"
                     onClick={() => handleDelete(item._id)}

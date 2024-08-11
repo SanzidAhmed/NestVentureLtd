@@ -4,7 +4,7 @@ import { MdDone } from "react-icons/md";
 const Steps = () => {
   const [steps, setSteps] = useState([]);
   useEffect(() => {
-    fetch("http://localhost:3300/steps")
+    fetch("https://nest-venture-ltd-server.vercel.app/steps")
       .then((res) => res.json())
       .then((data) => {
         setSteps(data);

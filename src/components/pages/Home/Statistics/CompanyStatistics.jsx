@@ -19,7 +19,7 @@ const CompanyStatistics = () => {
   useEffect(() => {
     const fetchData = () => {
       try {
-        fetch("http://localhost:3300/statistics")
+        fetch("https://nest-venture-ltd-server.vercel.app/statistics")
           .then((response) => response.json())
           .then((data) => {
             setStatistics(data);
@@ -41,8 +41,11 @@ const CompanyStatistics = () => {
       )}
       <div className="container mx-auto py-10 w-3/5">
         <div className="grid grid-cols-3 justify-items-center text-center gap-4 ">
-          {statistics.map((statistic) => (
-            <div className="flex flex-col items-center text-center ">
+          {statistics.map((statistic, index) => (
+            <div
+              key={index}
+              className="flex flex-col items-center text-center "
+            >
               <p className="text-center">{icons[statistic.icon]}</p>
               <h2 className="text-5xl text-red-900 mt-2">{statistic.value}</h2>
               <p className="font-bold mt-4">{statistic.label}</p>

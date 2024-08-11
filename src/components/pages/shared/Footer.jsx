@@ -1,20 +1,29 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { IoMdCall } from "react-icons/io";
 import { MdAttachEmail } from "react-icons/md";
 import { FaLocationDot } from "react-icons/fa6";
 
 const Footer = () => {
+  const [items, setItems] = useState([]);
+  useEffect(() => {
+    fetch("https://nest-venture-ltd-server.vercel.app/logo")
+      .then((res) => res.json())
+      .then((data) => setItems(data));
+  }, []);
   return (
     <div>
       <div className="bg-red-900">
         <div className="container mx-auto px-4 max-w-[1320px]">
           <footer className="footer grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-4 gap-8 bg-red-900 text-white p-10">
             <nav className="w-full md:col-span-2">
-              <img
-                src="https://i.ibb.co/HBSJn8G/Colorful-Illustrative-Hummingbird-Animals-Logo-removebg-preview.png"
-                alt=""
-                className="h-16 mb-4"
-              />
+              {items.map((item) => (
+                <img
+                  className="h-20 w-28"
+                  key={item._id}
+                  src={item.image}
+                  alt=""
+                />
+              ))}
               <p className="">
                 At Business Box, we empower entrepreneurs to reach their goals
                 with comprehensive training, expert consultancy, strategic

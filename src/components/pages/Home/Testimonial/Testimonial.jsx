@@ -16,7 +16,9 @@ const Testimonial = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("http://localhost:3300/testimonials");
+        const response = await fetch(
+          "https://nest-venture-ltd-server.vercel.app/testimonials"
+        );
         const data = await response.json();
         setTestimonials(data);
         setLoading(false);
@@ -55,8 +57,8 @@ const Testimonial = () => {
             modules={[Autoplay, Pagination, Navigation]}
             className="mySwiper"
           >
-            {testimonials.map((testimonial) => (
-              <SwiperSlide>
+            {testimonials.map((testimonial, index) => (
+              <SwiperSlide key={index}>
                 <div className="testimonial-slide text-center ">
                   <h2 className="font-bold text-5xl">{testimonial.name}</h2>
                   <p className="md:px-96">{testimonial.testimonial}</p>

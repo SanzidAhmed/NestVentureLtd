@@ -6,7 +6,7 @@ const Services = () => {
   useEffect(() => {
     const fetchData = () => {
       try {
-        fetch("http://localhost:3300/services")
+        fetch("https://nest-venture-ltd-server.vercel.app/services")
           .then((res) => res.json())
           .then((data) => {
             setServices(data);
@@ -28,7 +28,7 @@ const Services = () => {
           <div className="loader ease-linear rounded-full border-4 border-t-4 border-gray-200 h-12 w-12"></div>
         </div>
       )}
-      <div className="container mx-auto px-4 pb-16 max-w-[1320px]">
+      <div className="container mx-auto px-4 pb-16 max-w-[1320px] bg-white">
         <h3 className="text-center text-xl md:text-3xl font-semibold mt-10">
           Services
         </h3>
@@ -43,9 +43,11 @@ const Services = () => {
             >
               <figure>
                 <img
-                  src={`http://localhost:3300${
-                    service.image ? service.image : service.mainImage
-                  }`}
+                  src={
+                    isObjectEmpty(service.image)
+                      ? service.mainImage
+                      : service.image
+                  }
                   alt="Service"
                   className="w-full h-80 object-cover"
                 />

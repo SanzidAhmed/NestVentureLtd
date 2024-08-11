@@ -8,7 +8,7 @@ const UpdateStatistics = () => {
   const { label, value, _id } = item;
   const { register, handleSubmit, reset } = useForm();
   const onSubmit = (data) => {
-    fetch(`http://localhost:3300/statistics/${_id}`, {
+    fetch(`https://nest-venture-ltd-server.vercel.app/statistics/${_id}`, {
       method: "PUT",
       headers: {
         "content-type": "application/json",
@@ -22,12 +22,12 @@ const UpdateStatistics = () => {
       });
   };
   return (
-    <div className="bg-white p-32">
+    <div className="bg-white p-32 w-full">
       <h1 className="text-center font-extrabold text-3xl mb-14">
         Statistic Update
       </h1>
-      <form onSubmit={handleSubmit(onSubmit)} className=" ">
-        <div className="md:flex gap-5">
+      <form onSubmit={handleSubmit(onSubmit)} className=" w-full">
+        <div className="md:flex gap-5 w-full">
           <div className="form-control w-full">
             <label className="label">
               <span className="label-text text-lg font-medium ">Label </span>
@@ -62,7 +62,7 @@ const UpdateStatistics = () => {
         <input
           type="submit"
           value="Update statistic"
-          className="btn btn-block bg-red-500 hover:bg-yellow-700 mt-4"
+          className="btn btn-block bg-red-900 hover:bg-red-700 text-white mt-4"
         />
       </form>
     </div>

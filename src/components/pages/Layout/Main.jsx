@@ -7,7 +7,7 @@ const Main = () => {
   const isLoginPage = location.pathname === "/login";
 
   return (
-    <div>
+    <div className="bg-white text-black">
       {!isLoginPage && (
         <div>
           <Navbar />

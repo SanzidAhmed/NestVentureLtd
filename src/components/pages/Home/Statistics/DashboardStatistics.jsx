@@ -5,7 +5,7 @@ const DashboardStatistics = () => {
   const [items, setItems] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:3300/statistics")
+    fetch("https://nest-venture-ltd-server.vercel.app/statistics")
       .then((res) => res.json())
       .then((data) => setItems(data));
   }, []);
@@ -16,9 +16,9 @@ const DashboardStatistics = () => {
         <table className="min-w-full bg-white border border-gray-300">
           <thead className="bg-red-900 text-white">
             <tr>
-              <th className="px-4 py-2">Label</th>
-              <th className="px-4 py-2">Value</th>
-              <th className="px-4 py-2">Action</th>
+              <th className="px-4 py-2 text-left">Label</th>
+              <th className="px-4 py-2 text-left">Value</th>
+              <th className="px-4 py-2 text-right">Action</th>
             </tr>
           </thead>
           <tbody>
@@ -28,7 +28,7 @@ const DashboardStatistics = () => {
                   <div className="font-bold">{item.label}</div>
                 </td>
                 <td className="px-4 py-2 w-2/5">{item.value}</td>
-                <td className="px-4 py-2">
+                <td className="px-4 py-2 text-right">
                   <Link
                     to={`/dashboard/statistics-update/${item._id}`}
                     className="btn btn-primary btn-xs"

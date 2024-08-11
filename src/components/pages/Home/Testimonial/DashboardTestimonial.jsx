@@ -6,7 +6,7 @@ const DashboardTestimonial = () => {
   const [items, setItems] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:3300/testimonials")
+    fetch("https://nest-venture-ltd-server.vercel.app/testimonials")
       .then((res) => res.json())
       .then((data) => setItems(data));
   }, []);
@@ -21,7 +21,7 @@ const DashboardTestimonial = () => {
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        fetch(`http://localhost:3300/testimonials/${id}`, {
+        fetch(`https://nest-venture-ltd-server.vercel.app/testimonials/${id}`, {
           method: "DELETE",
         })
           .then((res) => res.json())
@@ -43,7 +43,7 @@ const DashboardTestimonial = () => {
     <div className="container mx-auto p-4">
       <div className="flex flex-wrap justify-between items-center py-2 border-b pr-2 mb-4">
         <h1 className="pl-4 text-lg font-semibold">
-          Manage Innovation and Growth Section
+          Manage Testimonial Section
         </h1>
         <Link
           to="/dashboard/create-growth-innovation"
@@ -56,29 +56,29 @@ const DashboardTestimonial = () => {
         <table className="min-w-full bg-white border border-gray-300">
           <thead className="bg-red-900 text-white">
             <tr>
-              <th className="px-4 py-2">Serial</th>
-              <th className="px-4 py-2">Title</th>
+              <th className="px-4 py-2 text-left">Serial</th>
+              <th className="px-4 py-2 text-left">Title</th>
               <th className="px-4 py-2 text-right">Action</th>
             </tr>
           </thead>
           <tbody>
             {items.map((item, index) => (
-              <tr key={item._id} className="border-b text-center items-center">
-                <td className="px-4 py-2">{index + 1}</td>
+              <tr key={item._id} className="border-b  ">
+                <td className="px-4 py-2 text-black">{index + 1}</td>
 
                 <td className="px-4 py-2">
-                  <div className="font-bold">{item.name}</div>
+                  <div className="font-bold text-black">{item.name}</div>
                 </td>
                 <td className="px-4 py-2 flex justify-end gap-2">
                   <Link
                     to={`/dashboard/testimonials/${item._id}`}
-                    className="btn btn-primary btn-xs"
+                    className="btn btn-primary btn-xs text-white"
                   >
                     Update
                   </Link>
                   <button
                     onClick={() => handleDelete(item._id)}
-                    className="btn btn-danger btn-xs"
+                    className="btn btn-danger btn-xs text-black"
                   >
                     Delete
                   </button>

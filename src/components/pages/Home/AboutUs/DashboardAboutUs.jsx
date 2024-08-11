@@ -4,10 +4,13 @@ import { Link } from "react-router-dom";
 const DashboardAboutUs = () => {
   const [items, setItems] = useState([]);
   useEffect(() => {
-    fetch("http://localhost:3300/about-company")
+    fetch("https://nest-venture-ltd-server.vercel.app/about-company")
       .then((res) => res.json())
       .then((data) => setItems(data));
   }, []);
+  function isObjectEmpty(obj) {
+    return Object.keys(obj).length === 0 && obj.constructor === Object;
+  }
   return (
     <div className="container mx-auto p-4">
       <div className="flex flex-wrap justify-between items-center py-2 border-b  pr-2 mb-4">
@@ -32,7 +35,11 @@ const DashboardAboutUs = () => {
                     <div className="avatar">
                       <div className="mask mask-squircle h-12 w-12">
                         <img
-                          src={item.imageSrc}
+                          src={
+                            isObjectEmpty(item.image)
+                              ? item.mainImage
+                              : item.image
+                          }
                           alt="Avatar Tailwind CSS Component"
                         />
                       </div>
@@ -51,6 +58,12 @@ const DashboardAboutUs = () => {
                   >
                     Update
                   </Link>
+                  <button
+                    className="btn btn-danger bg-red-600 btn-xs"
+                    onClick={() => handleDelete(item._id)}
+                  >
+                    Delete
+                  </button>
                 </td>
               </tr>
             ))}

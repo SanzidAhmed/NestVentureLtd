@@ -4,10 +4,11 @@ import Swal from "sweetalert2";
 
 const DashboardBanner = () => {
   const [items, setItems] = useState([]);
+
   const handleDelete = (id) => {
     Swal.fire({
       title: "Are you sure?",
-      text: "Do you want to delete this!",
+      text: "Do you want to delete",
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
@@ -15,47 +16,33 @@ const DashboardBanner = () => {
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        fetch(`http://localhost:3300/slider/${id}`, {
+        fetch(`https://nest-venture-ltd-server.vercel.app/slider/${id}`, {
           method: "DELETE",
         })
-          .then((res) => {
-            // Check if the response is okay
-            if (!res.ok) {
-              throw new Error("Network response was not ok");
-            }
-            return res.json();
-          })
+          .then((res) => res.json())
           .then((data) => {
-            // Assuming the backend response includes a message field
-            if (
-              data.deletedCount > 0 ||
-              data.message ===
-                "Growth and associated image deleted successfully"
-            ) {
-              setItems((prevItems) =>
-                prevItems.filter((item) => item._id !== id)
-              );
+            if (data.deletedCount > 0) {
+              setItems(items.filter((item) => item._id !== id));
               Swal.fire("Deleted!", "Your file has been deleted.", "success");
             } else {
-              Swal.fire(
-                "Error!",
-                "Something went wrong or item not found.",
-                "error"
-              );
+              Swal.fire("Error!", "Something went wrong.", "error");
             }
           })
           .catch((error) => {
-            Swal.fire("Error!", error.message, "error");
+            Swal.fire("Error!", "Something went wrong.", "error");
           });
       }
     });
   };
+
   useEffect(() => {
-    fetch("http://localhost:3300/slider")
+    fetch("https://nest-venture-ltd-server.vercel.app/slider")
       .then((res) => res.json())
       .then((data) => setItems(data));
   }, []);
-
+  function isObjectEmpty(obj) {
+    return Object.keys(obj).length === 0 && obj.constructor === Object;
+  }
   return (
     <div className="container mx-auto p-4">
       <div className="flex flex-wrap justify-between items-center py-2 border-b pr-2 mb-4">
@@ -73,9 +60,9 @@ const DashboardBanner = () => {
         <table className="min-w-full bg-white border border-gray-300">
           <thead className="bg-red-900 text-white">
             <tr>
-              <th className="px-4 py-2">Serial</th>
-              <th className="px-4 py-2">Company Information</th>
-              <th className="px-4 py-2">Description</th>
+              <th className="px-4 py-2 text-left">Serial</th>
+              <th className="px-4 py-2 text-left">Company Information</th>
+              <th className="px-4 py-2 text-left">Description</th>
               <th className="px-4 py-2 text-right">Action</th>
             </tr>
           </thead>
@@ -88,7 +75,11 @@ const DashboardBanner = () => {
                     <div className="avatar">
                       <div className="mask mask-squircle h-12 w-12">
                         <img
-                          src={item.image}
+                          src={
+                            isObjectEmpty(item.image)
+                              ? item.mainImage
+                              : item.image
+                          }
                           alt="Avatar Tailwind CSS Component"
                         />
                       </div>

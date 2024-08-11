@@ -1,30 +1,48 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
+const image_hosting_token = import.meta.env.VITE_Image_Upload_Token;
 
 const CreateBanner = () => {
   const { register, handleSubmit, reset } = useForm();
 
-  const onSubmit = async (data) => {
+  const image_hosting_url = `https://api.imgbb.com/1/upload?key=${image_hosting_token}`;
+  const onSubmit = (data) => {
     const formData = new FormData();
-    formData.append("image", data.image[0]); // Append the image file to formData
-    formData.append("title", data.title);
-    formData.append("description", data.description);
-    formData.append("link", data.link);
+    formData.append("image", data.image[0]);
 
-    const response = await fetch("http://localhost:3300/slider", {
+    fetch(image_hosting_url, {
       method: "POST",
       body: formData,
-    });
+    })
+      .then((res) => res.json())
+      .then((imgbbResult) => {
+        if (imgbbResult.success) {
+          const imageUrl = imgbbResult.data.display_url;
+          const updatedData = {
+            ...data,
+            image: imageUrl, // Update imageSrc with the new URL
+          };
 
-    if (response.ok) {
-      const result = await response.json();
-      Swal.fire("Success", "Slider image added successfully", "success");
-      reset();
-    } else {
-      const errorData = await response.json();
-      Swal.fire("Error", errorData.message || "Error adding slider", "error");
-    }
+          return fetch("https://nest-venture-ltd-server.vercel.app/slider", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(updatedData), // Use updatedData here
+          });
+        } else {
+          throw new Error("Image upload failed");
+        }
+      })
+      .then((res) => res.json())
+      .then((result) => {
+        Swal.fire("Banner created successfully");
+        reset(result);
+      })
+      .catch((error) => {
+        Swal.fire("Error creating banner", error.message, "error");
+      });
   };
 
   return (
@@ -33,56 +51,69 @@ const CreateBanner = () => {
         <h1 className="w-full font-extrabold text-3xl mb-14 text-center">
           Add a new Slider Image
         </h1>
-        <form onSubmit={handleSubmit(onSubmit)} className="w-full">
+        <form onSubmit={handleSubmit(onSubmit)} className=" w-full ">
           <div className="grid grid-cols-2 gap-6 w-full">
             <div className="form-control w-full">
               <label className="label">
-                <span className="label-text text-lg font-medium">Title</span>
+                <span className="label-text text-lg font-medium ">Title </span>
               </label>
-              <input
-                type="text"
-                {...register("title")}
-                placeholder="Title"
-                className="input input-bordered rounded-lg w-full"
-              />
+              <label className="">
+                <input
+                  type="text"
+                  {...register("title")}
+                  placeholder="Title"
+                  name="title"
+                  className="input input-bordered rounded-lg w-full bg-white"
+                />
+              </label>
             </div>
             <div className="form-control md:w-full">
               <label className="label">
-                <span className="label-text text-lg font-medium">
+                <span className="label-text text-lg font-medium ">
                   Description
                 </span>
               </label>
-              <input
-                type="text"
-                {...register("description")}
-                placeholder="Description"
-                className="input input-bordered rounded-lg w-full"
-              />
+              <label className="">
+                <input
+                  type="text"
+                  {...register("description")}
+                  placeholder="Description"
+                  name="description"
+                  className="input input-bordered rounded-lg w-full bg-white"
+                />
+              </label>
             </div>
             <div className="form-control md:w-full">
               <label className="label">
-                <span className="label-text text-lg font-medium">Link</span>
+                <span className="label-text text-lg font-medium ">Link</span>
               </label>
-              <input
-                type="text"
-                {...register("link")}
-                placeholder="Link"
-                className="input input-bordered rounded-lg w-full"
-              />
+              <label className="">
+                <input
+                  type="text"
+                  {...register("link")}
+                  placeholder="Link"
+                  name="link"
+                  className="input input-bordered rounded-lg w-full bg-white"
+                />
+              </label>
             </div>
 
             <div className="form-control md:w-full">
               <label className="label">
                 <span className="label-text text-lg font-medium">Image</span>
                 <span className="label-text text-sm font-medium">
-                  Height 700 pixels maximum and image should be 1MB or less
+                  height 700 pixel maximum and image would be a 1MP
                 </span>
               </label>
-              <input
-                {...register("image")}
-                type="file"
-                className="file-input file-input-bordered w-full"
-              />
+              <label className="">
+                <input
+                  {...register("image")}
+                  placeholder="image"
+                  name="image"
+                  type="file"
+                  className="file-input file-input-bordered  w-full  bg-white "
+                />
+              </label>
             </div>
           </div>
           <input

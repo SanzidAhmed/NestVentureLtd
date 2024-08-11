@@ -34,6 +34,9 @@ import DashboardTestimonial from "./components/pages/Home/Testimonial/DashboardT
 import UpdateTestimonial from "./components/pages/Home/Testimonial/UpdateTestimonial.jsx";
 import DashboardSponsored from "./components/pages/Home/Sponsored/DashboardSponsored.jsx";
 import UpdateSponsor from "./components/pages/Home/Sponsored/UpdateSponsor.jsx";
+import About from "./components/pages/About/About.jsx";
+import DashboardLogo from "./components/pages/Logo/DashboardLogo.jsx";
+import UpdateLogo from "./components/pages/Logo/UpdateLogo.jsx";
 
 const router = createBrowserRouter([
   {
@@ -53,6 +56,18 @@ const router = createBrowserRouter([
         path: "/register-as-investor",
         element: <RegistrationFormForInvestor></RegistrationFormForInvestor>,
       },
+      {
+        path: "/register-as-investor/:id",
+        element: <RegistrationFormForInvestor></RegistrationFormForInvestor>,
+        loader: ({ params }) =>
+          fetch(
+            `https://nest-venture-ltd-server.vercel.app/register-as-investor/${params.id}`
+          ),
+      },
+      {
+        path: "/about",
+        element: <About></About>,
+      },
     ],
   },
   {
@@ -63,6 +78,20 @@ const router = createBrowserRouter([
       </PrivateRoute>
     ),
     children: [
+      {
+        path: "logo",
+        element: <DashboardLogo></DashboardLogo>,
+      },
+      {
+        path: "logo-update/:id",
+        element: (
+          <PrivateRoute>
+            <UpdateLogo></UpdateLogo>{" "}
+          </PrivateRoute>
+        ),
+        loader: ({ params }) =>
+          fetch(`https://nest-venture-ltd-server.vercel.app/logo/${params.id}`),
+      },
       {
         path: "slider",
         element: <DashboardBanner></DashboardBanner>,
@@ -79,7 +108,9 @@ const router = createBrowserRouter([
           </PrivateRoute>
         ),
         loader: ({ params }) =>
-          fetch(`http://localhost:3300/slider/${params.id}`),
+          fetch(
+            `https://nest-venture-ltd-server.vercel.app/slider/${params.id}`
+          ),
       },
       {
         path: "about-us",
@@ -94,7 +125,9 @@ const router = createBrowserRouter([
           </PrivateRoute>
         ),
         loader: ({ params }) =>
-          fetch(`http://localhost:3300/about-company/${params.id}`),
+          fetch(
+            `https://nest-venture-ltd-server.vercel.app/about-company/${params.id}`
+          ),
       },
       {
         path: "growth",
@@ -112,7 +145,9 @@ const router = createBrowserRouter([
           </PrivateRoute>
         ),
         loader: ({ params }) =>
-          fetch(`http://localhost:3300/growth/${params.id}`),
+          fetch(
+            `https://nest-venture-ltd-server.vercel.app/growth/${params.id}`
+          ),
       },
       {
         path: "services",
@@ -130,7 +165,9 @@ const router = createBrowserRouter([
           </PrivateRoute>
         ),
         loader: ({ params }) =>
-          fetch(`http://localhost:3300/services/${params.id}`),
+          fetch(
+            `https://nest-venture-ltd-server.vercel.app/services/${params.id}`
+          ),
       },
       {
         path: "statistics",
@@ -144,7 +181,9 @@ const router = createBrowserRouter([
           </PrivateRoute>
         ),
         loader: ({ params }) =>
-          fetch(`http://localhost:3300/statistics/${params.id}`),
+          fetch(
+            `https://nest-venture-ltd-server.vercel.app/statistics/${params.id}`
+          ),
       },
       {
         path: "company-video",
@@ -158,7 +197,9 @@ const router = createBrowserRouter([
           </PrivateRoute>
         ),
         loader: ({ params }) =>
-          fetch(`http://localhost:3300/video/${params.id}`),
+          fetch(
+            `https://nest-venture-ltd-server.vercel.app/video/${params.id}`
+          ),
       },
       {
         path: "how-does-company-work",
@@ -172,7 +213,9 @@ const router = createBrowserRouter([
           </PrivateRoute>
         ),
         loader: ({ params }) =>
-          fetch(`http://localhost:3300/how-does-nest-works/${params.id}`),
+          fetch(
+            `https://nest-venture-ltd-server.vercel.app/how-does-nest-works/${params.id}`
+          ),
       },
       {
         path: "steps",
@@ -186,7 +229,9 @@ const router = createBrowserRouter([
           </PrivateRoute>
         ),
         loader: ({ params }) =>
-          fetch(`http://localhost:3300/steps/${params.id}`),
+          fetch(
+            `https://nest-venture-ltd-server.vercel.app/steps/${params.id}`
+          ),
       },
       {
         path: "investor-registration-form",
@@ -206,7 +251,9 @@ const router = createBrowserRouter([
           </PrivateRoute>
         ),
         loader: ({ params }) =>
-          fetch(`http://localhost:3300/testimonials/${params.id}`),
+          fetch(
+            `https://nest-venture-ltd-server.vercel.app/testimonials/${params.id}`
+          ),
       },
       {
         path: "sponsors",
@@ -220,7 +267,9 @@ const router = createBrowserRouter([
           </PrivateRoute>
         ),
         loader: ({ params }) =>
-          fetch(`http://localhost:3300/sponsors/${params.id}`),
+          fetch(
+            `https://nest-venture-ltd-server.vercel.app/sponsors/${params.id}`
+          ),
       },
     ],
   },

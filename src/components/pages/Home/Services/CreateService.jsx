@@ -6,25 +6,44 @@ const image_hosting_token = import.meta.env.VITE_Image_Upload_Token;
 const CreateService = () => {
   const { register, handleSubmit, reset } = useForm();
 
-  const onSubmit = async (data) => {
+  const image_hosting_url = `https://api.imgbb.com/1/upload?key=${image_hosting_token}`;
+  const onSubmit = (data) => {
     const formData = new FormData();
-    formData.append("image", data.image[0]); // Append the image file to formData
-    formData.append("title", data.title);
-    formData.append("description", data.description);
+    formData.append("image", data.image[0]);
 
-    const response = await fetch("http://localhost:3300/services", {
+    fetch(image_hosting_url, {
       method: "POST",
       body: formData,
-    });
+    })
+      .then((res) => res.json())
+      .then((imgbbResult) => {
+        console.log(imgbbResult);
+        if (imgbbResult.success) {
+          const imageUrl = imgbbResult.data.display_url;
+          const updatedData = {
+            ...data,
+            image: imageUrl, // Update imageSrc with the new URL
+          };
 
-    if (response.ok) {
-      const result = await response.json();
-      Swal.fire("Success", "Service image added successfully", "success");
-      reset();
-    } else {
-      const errorData = await response.json();
-      Swal.fire("Error", errorData.message || "Error adding service", "error");
-    }
+          return fetch("https://nest-venture-ltd-server.vercel.app/services", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(updatedData), // Use updatedData here
+          });
+        } else {
+          throw new Error("Image upload failed");
+        }
+      })
+      .then((res) => res.json())
+      .then((result) => {
+        Swal.fire("Service created successfully");
+        reset(result);
+      })
+      .catch((error) => {
+        Swal.fire("Error updating data", error.message, "error");
+      });
   };
   return (
     <div className="container mx-auto">
@@ -44,7 +63,7 @@ const CreateService = () => {
                   {...register("title")}
                   placeholder="Title"
                   name="title"
-                  className="input input-bordered rounded-lg w-full"
+                  className="input input-bordered rounded-lg w-full bg-white"
                 />
               </label>
             </div>
@@ -60,7 +79,7 @@ const CreateService = () => {
                   {...register("description")}
                   placeholder="Description"
                   name="description"
-                  className="input input-bordered rounded-lg w-full"
+                  className="input input-bordered rounded-lg w-full  bg-white"
                 />
               </label>
             </div>

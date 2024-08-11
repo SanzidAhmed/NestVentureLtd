@@ -2,48 +2,72 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useLoaderData } from "react-router-dom";
 import Swal from "sweetalert2";
+const image_hosting_token = import.meta.env.VITE_Image_Upload_Token;
 
 const UpdateGrowthAndInnovation = () => {
+  const image_hosting_url = `https://api.imgbb.com/1/upload?key=${image_hosting_token}`;
+
   const item = useLoaderData();
-  const { title, image, _id, buttonText } = item;
+  const { title, image, _id, buttonText, mainImage } = item;
   const { register, handleSubmit, reset } = useForm();
-  const [loading, setLoading] = useState(false);
 
-  const onSubmit = async (data) => {
-    setLoading(true);
-    const formData = new FormData();
-    formData.append("title", data.title);
-    formData.append("buttonText", data.buttonText);
-
-    if (data.image && data.image[0]) {
+  const onSubmit = (data) => {
+    if (data.image.length === 0) {
+      const updatedData = {
+        title: data.title,
+        buttonText: data.buttonText,
+      };
+      updateGrowth(updatedData);
+    } else {
+      const formData = new FormData();
       formData.append("image", data.image[0]);
-    }
-
-    try {
-      const response = await fetch(`http://localhost:3300/growth/${_id}`, {
-        method: "PUT",
+      fetch(image_hosting_url, {
+        method: "POST",
         body: formData,
-      });
-      const result = await response.json();
-
-      if (response.ok) {
-        Swal.fire("Growth section updated successfully");
-        reset(result); // Update the preview image URL
-      } else {
-        throw new Error(result.message || "Update failed");
-      }
-    } catch (error) {
-      Swal.fire("Error updating growth section", error.message, "error");
-    } finally {
-      setLoading(false);
+      })
+        .then((res) => res.json())
+        .then((imgbbResult) => {
+          if (imgbbResult.success) {
+            const imageUrl = imgbbResult.data.display_url;
+            const updatedData = {
+              title: data.title,
+              buttonText: data.buttonText,
+              image: imageUrl,
+            };
+            updateGrowth(updatedData);
+          } else {
+            throw new Error("Image upload failed");
+          }
+        })
+        .catch((error) => {
+          Swal.fire("Error updating data", error.message, "error");
+        });
     }
+  };
+
+  const updateGrowth = (updatedData) => {
+    fetch(`https://nest-venture-ltd-server.vercel.app/growth/${_id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(updatedData), // Use updatedData here
+    })
+      .then((res) => res.json())
+      .then((result) => {
+        Swal.fire("Company growth updated successfully");
+        reset(result);
+      })
+      .catch((error) => {
+        Swal.fire("Error updating growth", error.message, "error");
+      });
   };
 
   const handleImageChange = (event) => {
     const file = event.target.files[0];
     if (file) {
       const reader = new FileReader();
-
+      reader.onload = (e) => {};
       reader.readAsDataURL(file);
     }
   };
@@ -65,7 +89,7 @@ const UpdateGrowthAndInnovation = () => {
               defaultValue={title}
               placeholder="Title"
               name="title"
-              className="input input-bordered rounded-lg w-full"
+              className="input input-bordered rounded-lg w-full bg-white"
             />
           </div>
 
@@ -75,11 +99,11 @@ const UpdateGrowthAndInnovation = () => {
             </label>
             <input
               type="file"
-              {...register("image")}
               onChange={handleImageChange}
+              {...register("image")}
               placeholder="Image"
               name="image"
-              className="w-full file-input file-input-bordered"
+              className="w-full file-input file-input-bordered bg-white"
             />
           </div>
 
@@ -95,14 +119,13 @@ const UpdateGrowthAndInnovation = () => {
               defaultValue={buttonText}
               placeholder="Button Text"
               name="buttonText"
-              className="input input-bordered rounded-lg text-black w-full"
+              className="input input-bordered rounded-lg text-black w-full bg-white"
             />
           </div>
         </div>
         <input
           type="submit"
-          value={loading ? "Updating..." : "Update Growth Section"}
-          disabled={loading}
+          value="Update Growth Section"
           className="btn btn-block bg-red-900 hover:bg-red-700 text-white mt-4"
         />
       </form>

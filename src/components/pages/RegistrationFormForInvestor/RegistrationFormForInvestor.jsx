@@ -73,7 +73,7 @@ const RegistrationFormForInvestor = () => {
 
   const onSubmit = (data) => {
     console.log(data);
-    fetch("http://localhost:3300/register-as-investor", {
+    fetch("https://nest-venture-ltd-server.vercel.app/register-as-investor", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

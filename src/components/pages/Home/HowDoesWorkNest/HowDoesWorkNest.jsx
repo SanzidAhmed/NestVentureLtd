@@ -9,7 +9,7 @@ const HowDoesWorkNest = () => {
   useEffect(() => {
     const fetchData = () => {
       try {
-        fetch("http://localhost:3300/how-does-nest-works")
+        fetch("https://nest-venture-ltd-server.vercel.app/how-does-nest-works")
           .then((res) => res.json())
           .then((data) => {
             setProcedures(data);
@@ -34,7 +34,7 @@ const HowDoesWorkNest = () => {
       <div className="container mx-auto px-4 max-w-[1320px]">
         {procedures.map((procedure) => (
           <div
-            key={procedure.id}
+            key={procedure._id}
             className="flex flex-col lg:flex-row justify-between gap-8 items-center mb-10"
           >
             <div className="w-full relative mb-6 lg:mb-0">
@@ -45,9 +45,11 @@ const HowDoesWorkNest = () => {
               />
               <img
                 className="absolute top-0 h-[300px] lg:h-full object-cover w-full"
-                src={`http://localhost:3300${
-                  procedure.image ? procedure.image : procedure.mainImage
-                }`}
+                src={
+                  isObjectEmpty(procedure.image)
+                    ? procedure.mainImage
+                    : procedure.image
+                }
                 alt="Main"
               />
             </div>

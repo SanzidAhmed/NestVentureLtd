@@ -4,7 +4,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 import { Autoplay, Navigation } from "swiper/modules";
 import "./Banner.css"; // Import custom CSS
-// src={isObjectEmpty(slide.image) ? slide.mainImage : slide.image}
+
 const Banner = () => {
   const [slider, setSlider] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -12,7 +12,9 @@ const Banner = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("http://localhost:3300/slider");
+        const response = await fetch(
+          "https://nest-venture-ltd-server.vercel.app/slider"
+        );
         const data = await response.json();
         setSlider(data);
         setLoading(false);
@@ -55,23 +57,21 @@ const Banner = () => {
         className="mySwiper"
       >
         {slider.map((slide, index) => (
-          <SwiperSlide key={index}>
+          <SwiperSlide key={index} className="relative">
             <img
               className="h-[700px] w-full object-cover"
-              src={`http://localhost:3300${
-                slide.image ? slide.image : slide.mainImage
-              }`}
+              src={isObjectEmpty(slide.image) ? slide.mainImage : slide.image}
               alt={slide.title}
             />
+            <div className="absolute inset-0 bg-black bg-opacity-40"></div>{" "}
+            {/* Dark Overlay */}
             <div className="absolute bottom-10 left-10 text-white">
-              <h2 className="text-3xl font-bold p-4 bg-red-400">
-                {slide.title}
-              </h2>
+              <h2 className="text-3xl font-bold py-3">{slide.title}</h2>
               <p className="text-lg">{slide.description}</p>
               {slide.link && (
                 <a
                   href={slide.link}
-                  className="text-blue-500 underline"
+                  className="text-red-800 underline"
                   target="_blank"
                   rel="noopener noreferrer"
                 >

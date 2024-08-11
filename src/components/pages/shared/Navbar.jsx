@@ -1,10 +1,16 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { FaFacebook, FaPinterest, FaTwitter, FaLinkedin } from "react-icons/fa";
 import { FaLocationDot } from "react-icons/fa6";
 import { BiSolidMessageDetail } from "react-icons/bi";
 
 const Navbar = () => {
+  const [items, setItems] = useState([]);
+  useEffect(() => {
+    fetch("https://nest-venture-ltd-server.vercel.app/logo")
+      .then((res) => res.json())
+      .then((data) => setItems(data));
+  }, []);
   return (
     <div className="">
       <div className=" bg-red-900">
@@ -35,8 +41,8 @@ const Navbar = () => {
         </div>
       </div>
       <div className="container mx-auto">
-        <div className="navbar bg-base-100">
-          <div className="navbar-start">
+        <div className="navbar bg-white">
+          <div className="navbar-start ">
             <div className="dropdown">
               <div
                 tabIndex={0}
@@ -60,7 +66,7 @@ const Navbar = () => {
               </div>
               <ul
                 tabIndex={0}
-                className="menu menu-sm dropdown-content bg-base-100 rounded-box z-20 mt-3 w-52 p-2 shadow"
+                className="menu menu-sm dropdown-content bg-base-100 rounded-box z-20 mt-3 w-52 p-2 shadow active:bg-red-500"
               >
                 <li>
                   <Link to="/">Home</Link>
@@ -100,21 +106,41 @@ const Navbar = () => {
             </div>
             <div className="">
               <Link to="/" className=" text-xl">
-                <img
-                  className=" btn hover:bg-white bg-white border-none shadow-none"
-                  src="https://i.ibb.co/HBSJn8G/Colorful-Illustrative-Hummingbird-Animals-Logo-removebg-preview.png"
-                  alt=""
-                />
+                {items.map((item) => (
+                  <img
+                    key={item._id}
+                    className=" btn hover:bg-white bg-white border-none shadow-none"
+                    src={item.image}
+                    alt=""
+                  />
+                ))}
               </Link>
             </div>
           </div>
           <div className="navbar-center hidden lg:flex">
             <ul className="menu menu-horizontal px-1 uppercase font-bold">
               <li>
-                <NavLink to="/">Home</NavLink>
+                <NavLink
+                  exact
+                  to="/"
+                  activeclassName="bg-red-700"
+                  style={({ isActive }) =>
+                    isActive ? { backgroundColor: "#b91c1c" } : {}
+                  }
+                >
+                  Home
+                </NavLink>
               </li>
               <li>
-                <Link to="/about">About us</Link>
+                <NavLink
+                  to="/about"
+                  activeclassName="bg-red-700"
+                  style={({ isActive }) =>
+                    isActive ? { backgroundColor: "#b91c1c" } : {}
+                  }
+                >
+                  About us
+                </NavLink>
               </li>
               <li className="relative group">
                 <div className="cursor-pointer">
@@ -136,19 +162,52 @@ const Navbar = () => {
                 </div>
               </li>
               <li>
-                <Link to="/contact">Contact</Link>
+                <NavLink
+                  to="/contact"
+                  activeclassName="bg-red-700"
+                  style={({ isActive }) =>
+                    isActive ? { backgroundColor: "#b91c1c" } : {}
+                  }
+                >
+                  Contact
+                </NavLink>
               </li>
               <li>
-                <Link to="/gallery">Gallery</Link>
+                <NavLink
+                  to="/gallery"
+                  activeclassName="bg-red-700"
+                  style={({ isActive }) =>
+                    isActive ? { backgroundColor: "#b91c1c" } : {}
+                  }
+                >
+                  Gallery
+                </NavLink>
               </li>
               <li>
-                <Link to="/blogs">Blogs</Link>
+                <NavLink
+                  to="/blogs"
+                  activeclassName="bg-red-700"
+                  style={({ isActive }) =>
+                    isActive ? { backgroundColor: "#b91c1c" } : {}
+                  }
+                >
+                  Blogs
+                </NavLink>
               </li>
               <li>
-                <NavLink to="/dashboard">Dashboard</NavLink>
+                <NavLink
+                  to="/dashboard"
+                  activeclassName="bg-red-700"
+                  style={({ isActive }) =>
+                    isActive ? { backgroundColor: "#b91c1c" } : {}
+                  }
+                >
+                  Dashboard
+                </NavLink>
               </li>
             </ul>
           </div>
+
           <div className="navbar-end">
             <Link
               to="/register-as-investor"

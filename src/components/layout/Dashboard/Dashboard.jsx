@@ -1,10 +1,16 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link, NavLink, Outlet } from "react-router-dom";
 import { AuthContext } from "../../provider/AuthProvider";
 import { FaChevronRight, FaPenFancy, FaPlay } from "react-icons/fa";
 import { FaUserFriends } from "react-icons/fa";
 
 const Dashboard = () => {
+  const [items, setItems] = useState([]);
+  useEffect(() => {
+    fetch("https://nest-venture-ltd-server.vercel.app/logo")
+      .then((res) => res.json())
+      .then((data) => setItems(data));
+  }, []);
   const { logOut } = useContext(AuthContext);
   const [isUpdateSectionOpen, setUpdateSectionOpen] = useState(false);
   const [isNestWorkOpen, setNestWorkOpen] = useState(false); // State for "How Does Nest Work" subsection
@@ -59,11 +65,14 @@ const Dashboard = () => {
           </div>
           <div className="">
             <Link to="/" className=" text-xl">
-              <img
-                className=" btn hover:bg-red-100 bg-red-100 border-none shadow-none"
-                src="https://i.ibb.co/HBSJn8G/Colorful-Illustrative-Hummingbird-Animals-Logo-removebg-preview.png"
-                alt=""
-              />
+              {items.map((item) => (
+                <img
+                  key={item._id}
+                  className=" btn hover:bg-red-100 bg-red-100 border-none shadow-none"
+                  src={item.image}
+                  alt=""
+                />
+              ))}
             </Link>
           </div>
         </div>
@@ -77,7 +86,7 @@ const Dashboard = () => {
               <div className="w-10 rounded-full">
                 <img
                   alt="Tailwind CSS Navbar component"
-                  src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
+                  src="https://i.ibb.co/6YZvhkD/man-4140048.png"
                 />
               </div>
             </div>
@@ -114,7 +123,7 @@ const Dashboard = () => {
             checked={isDrawerOpen}
             onChange={toggleDrawer}
           />
-          <div className="drawer-content flex flex-col items-center justify-start pt-10 bg-white">
+          <div className="drawer-content flex flex-col items-center justify-start pt-10 bg-white text-black">
             <Outlet />
           </div>
           <div className="drawer-side">
@@ -140,6 +149,15 @@ const Dashboard = () => {
 
               {isUpdateSectionOpen && (
                 <>
+                  <li className="text-sm w-full pl-2 bg-white border-white text-black hover:bg-gray-100">
+                    <NavLink
+                      to="/dashboard/logo"
+                      className="flex items-center gap-2"
+                    >
+                      <FaPlay className="text-xs" />
+                      Logo Update
+                    </NavLink>
+                  </li>
                   <li className="text-sm w-full pl-2 bg-white border-white text-black hover:bg-gray-100">
                     <NavLink
                       to="/dashboard/slider"

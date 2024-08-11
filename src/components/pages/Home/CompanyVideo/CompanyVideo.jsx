@@ -10,7 +10,7 @@ const CompanyVideo = () => {
   useEffect(() => {
     const fetchData = () => {
       try {
-        fetch("http://localhost:3300/video")
+        fetch("https://nest-venture-ltd-server.vercel.app/video")
           .then((res) => res.json())
           .then((data) => {
             setVideos(data);
@@ -36,8 +36,8 @@ const CompanyVideo = () => {
         </div>
       )}
       <div>
-        {videos.map((video) => (
-          <div className="relative mb-20">
+        {videos.map((video, index) => (
+          <div key={index} className="relative mb-20">
             {!showVideo && (
               <div className="clip-custom h-full w-full flex flex-col justify-center items-center">
                 <img

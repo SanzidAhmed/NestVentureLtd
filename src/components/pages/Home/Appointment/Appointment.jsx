@@ -4,7 +4,7 @@ const Appointment = () => {
   const [forms, setForms] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:3300/google-form")
+    fetch("https://nest-venture-ltd-server.vercel.app/google-form")
       .then((res) => res.json())
       .then((data) => {
         setForms(data);
@@ -24,8 +24,8 @@ const Appointment = () => {
         <h1 className="mb-8">
           Get your Quote or Call (096) 96232337, (880) 1913 511 188
         </h1>
-        {forms.map((form) => (
-          <div className="pb-10">
+        {forms.map((form, index) => (
+          <div key={index} className="pb-10">
             <button
               className="btn mr-2 bg-red-950 text-white"
               onClick={() => openGoogleForm(form.applyForInvestment)}

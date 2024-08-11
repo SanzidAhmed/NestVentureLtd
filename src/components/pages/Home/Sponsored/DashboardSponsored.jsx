@@ -6,7 +6,7 @@ const DashboardSponsored = () => {
   const [items, setItems] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:3300/sponsors")
+    fetch("https://nest-venture-ltd-server.vercel.app/sponsors")
       .then((res) => res.json())
       .then((data) => setItems(data));
   }, []);
@@ -22,7 +22,7 @@ const DashboardSponsored = () => {
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        fetch(`http://localhost:3300/sponsors/${id}`, {
+        fetch(`https://nest-venture-ltd-server.vercel.app/sponsors/${id}`, {
           method: "DELETE",
         })
           .then((res) => res.json())
